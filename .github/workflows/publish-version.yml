@@ -1,0 +1,26 @@
+name: Publish app version
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'index.html'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Increment Supabase app version
+        env:
+          SUPABASE_URL: https://rsrpvitvattyrjrsbfry.supabase.co
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          curl --fail-with-body --silent --show-error \
+            "$SUPABASE_URL/rest/v1/rpc/publish_app_release" \
+            -X POST \
+            -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"p_release_notes":"Automatic release from GitHub"}'
