@@ -21,6 +21,5 @@ jobs:
             "$SUPABASE_URL/rest/v1/rpc/publish_app_release" \
             -X POST \
             -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" \
-            -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
             -H "Content-Type: application/json" \
             -d '{"p_release_notes":"Automatic release from GitHub"}'
