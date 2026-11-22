@@ -168,7 +168,7 @@ body.offl .conn{display:flex!important}
 /* مناطق اللمس فوق الصورة */
 .hz{position:absolute;background:transparent;border:0;padding:0;margin:0;cursor:pointer;border-radius:calc(var(--u)*18);-webkit-tap-highlight-color:transparent;transition:background .2s;z-index:2;pointer-events:auto}
 .hz:hover{background:rgba(190,255,190,.07)}
-.hz:active{background:rgba(190,255,190,.15)}
+.hz:active{background:transparent!important}
 .hz:focus-visible{outline:2px solid #ffe08a;outline-offset:-2px}
 .hz:focus:not(:focus-visible){outline:none!important;box-shadow:none!important}
 .hz{-webkit-tap-highlight-color:transparent}
@@ -279,7 +279,7 @@ const cm=()=>$('md').style.display='none';function om(h){$('mb').innerHTML=h;$('
 const mon=e=>e.value=num(e.value)?num(e.value).toLocaleString('en-US'):'';
 function status(d){if(d.paid>=d.total)return['مسدد بالكامل','#1f8a5b'];if(d.due_date&&d.due_date<new Date().toISOString().slice(0,10))return['متأخر','#c23b3b'];return d.paid>0?['مسدد جزئياً','#c98a12']:['غير مسدد','#1c9aa0']}
 async function loadAppVersion(){try{const{data,error}=await sb.from('app_release').select('version_number').eq('id',1).single();if(error)throw error;const el=$('appVersion');if(el&&Number.isFinite(Number(data.version_number)))el.textContent='v'+Number(data.version_number)}catch(e){console.warn('تعذر جلب إصدار التطبيق',e)}}
-async function load(options={}){const background=!!options.background;try{await Promise.all(Object.keys(S).map(async t=>{const{data,error}=await sb.from(t).select('*').order('created_at',{ascending:false});if(error)throw Object.assign(new Error(error.message),{table:t,code:error.code});S[t]=data}));await loadAppVersion();lastSyncAt=Date.now();conn(true);const editing=['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName);if(!background||($('md').style.display!='flex'&&!editing))render()}catch(e){console.error('SHEIN AL-NEEL data load failed:',e);conn(false);if(!background)toast('تعذر تحميل '+(e.table||'البيانات')+': '+(e.message||'تحقق من الاتصال'))}}
+async function load(options={}){const background=!!options.background;try{await Promise.all(Object.keys(S).map(async t=>{let q=sb.from(t).select('*');if(t!=='sale_items')q=q.order('created_at',{ascending:false});const{data,error}=await q;if(error)throw Object.assign(new Error(error.message),{table:t,code:error.code});S[t]=data}));await loadAppVersion();lastSyncAt=Date.now();conn(true);const editing=['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName);if(!background||($('md').style.display!='flex'&&!editing))render()}catch(e){console.error('SHEIN AL-NEEL data load failed:',e);conn(false);if(!background)toast('تعذر تحميل '+(e.table||'البيانات')+': '+(e.message||'تحقق من الاتصال'))}}
 function conn(ok){document.body.classList.toggle('offl',!ok);$('st').style.color=ok?'#16915f':'#d03b4b';$('st').textContent=ok?'● متصل':'● غير متصل'}
 async function start(){if(KEY.startsWith('YOUR')){DEMO=true;$('app').style.display='';$('st').textContent='● غير مربوط بقاعدة البيانات';tab='dash';render();return}
  $('app').style.display='';await load();
