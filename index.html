@@ -190,6 +190,12 @@ body.offl .conn{display:flex!important}
 .section-head h2{margin:2px 0 1px;font-size:20px;color:#fff}
 .section-head p{margin:0;color:#f0f3e2;font-size:12px;opacity:.9}
 .section-chip{margin-right:auto;align-self:flex-start;padding:6px 10px;border:1px solid #ffffff55;border-radius:20px;background:#ffffff18;color:#fff;font-size:10px;white-space:nowrap}
+.section-back{flex-shrink:0;border:1px solid #ffffff70;border-radius:12px;background:#ffffff20;color:#fff;padding:9px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;z-index:1;transition:background .2s,transform .2s}
+.section-back:hover{background:#ffffff35;transform:translateY(-1px)}
+#mb h3 .modal-exit{margin-right:auto;flex-shrink:0;width:34px;height:34px;border:1px solid #ffffff70;border-radius:11px;background:#ffffff20;color:#fff;font:inherit;font-size:23px;line-height:1;display:grid;place-items:center;cursor:pointer;z-index:2}
+#mb h3 .modal-exit:hover{background:#ffffff38}
+@media(max-width:600px){.section-back{padding:8px 10px;font-size:12px}.section-head{flex-wrap:wrap}.section-head .section-chip{display:none}}
+
 .section-content{animation:pg .32s ease both}
 .section-content .st,.section-content .c,.section-content .c2,.section-content .dc,.section-content .cc{border-radius:17px;border-color:#e1e6d2;box-shadow:0 5px 18px #35451b0c}
 .section-content .tb{padding:12px;border:1px solid #e1e6d2;border-radius:16px;background:#ffffffb8;box-shadow:0 4px 14px #35451b08}
@@ -275,7 +281,7 @@ const dt=s=>new Date(s).toLocaleString('ar-IQ',{timeZone:'Asia/Baghdad',dateStyl
 const ym=s=>new Date(s).toLocaleDateString('sv',{timeZone:'Asia/Baghdad'}).slice(0,7);
 const sum=(a,k)=>a.reduce((x,y)=>x+Number(y[k]||0),0),cust=id=>S.customers.find(c=>c.id==id)?.name||'—';
 function toast(m){const t=$('tt');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2800)}
-const cm=()=>$('md').style.display='none';function om(h){$('mb').innerHTML=h;$('md').style.display='flex'}
+const cm=()=>$('md').style.display='none';function om(h){$('mb').innerHTML=h.replace(/<h3([^>]*)>/,'<h3$1><button type="button" class="modal-exit" onclick="cm()" aria-label="إغلاق">×</button>');$('md').style.display='flex'}
 const mon=e=>e.value=num(e.value)?num(e.value).toLocaleString('en-US'):'';
 function status(d){if(d.paid>=d.total)return['مسدد بالكامل','#1f8a5b'];if(d.due_date&&d.due_date<new Date().toISOString().slice(0,10))return['متأخر','#c23b3b'];return d.paid>0?['مسدد جزئياً','#c98a12']:['غير مسدد','#1c9aa0']}
 async function loadAppVersion(){try{const{data,error}=await sb.from('app_release').select('version_number').eq('id',1).single();if(error)throw error;const el=$('appVersion');if(el&&Number.isFinite(Number(data.version_number)))el.textContent='v'+Number(data.version_number)}catch(e){console.warn('تعذر جلب إصدار التطبيق',e)}}
@@ -289,7 +295,7 @@ let ch=null,poll=null,DEMO=false,lastSyncAt=0;
 addEventListener('offline',()=>conn(false));addEventListener('online',()=>{conn(true);load({background:true})});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-lastSyncAt>120000)load({background:true})});
 const TABS={dash:'الرئيسية',cust:'الزبائن',debt:'الديون',sale:'المبيعات',exp:'المصروفات',rep:'الجرد',log:'السجل'},IC={dash:'🏠',cust:'👥',debt:'💳',sale:'🛍️',exp:'🧾',rep:'📊',log:'🕘'};
-function render(a){const M=['exp','rep','log'];$('nv').innerHTML=Object.entries(TABS).map(([k,v])=>`<button class="${k==tab?'on':''} ${M.includes(k)?'hid':''}" onclick="tab='${k}';render(1);scrollTo(0,0)"><i>${IC[k]}</i><span>${v}</span></button>`).join('')+`<button class="mo ${M.includes(tab)?'on':''}" onclick="moreM()"><i>☰</i><span>المزيد</span></button>`;$('ttl').textContent=TABS[tab];document.body.classList.toggle('dm',tab==='dash');const content=V[tab]();$('mn').innerHTML=tab==='dash'?content:`<section class="section-page"><div class="section-head"><div class="section-mark">${IC[tab]}</div><div><small>SHEIN AL-NEEL · إدارة المحل</small><h2>${TABS[tab]}</h2><p>كل بياناتك مرتبة بنفس هوية وتصميم النظام</p></div><span class="section-chip">شي آن النيل</span></div><div class="section-content">${content}</div></section>`;if(tab==='dash')dashFit();if(a){const m=$('mn');m.classList.remove('an');void m.offsetWidth;m.classList.add('an')}}
+function render(a){const M=['exp','rep','log'];$('nv').innerHTML=Object.entries(TABS).map(([k,v])=>`<button class="${k==tab?'on':''} ${M.includes(k)?'hid':''}" onclick="tab='${k}';render(1);scrollTo(0,0)"><i>${IC[k]}</i><span>${v}</span></button>`).join('')+`<button class="mo ${M.includes(tab)?'on':''}" onclick="moreM()"><i>☰</i><span>المزيد</span></button>`;$('ttl').textContent=TABS[tab];document.body.classList.toggle('dm',tab==='dash');const content=V[tab]();$('mn').innerHTML=tab==='dash'?content:`<section class="section-page"><div class="section-head"><div class="section-mark">${IC[tab]}</div><div><small>SHEIN AL-NEEL · إدارة المحل</small><h2>${TABS[tab]}</h2><p>كل بياناتك مرتبة بنفس هوية وتصميم النظام</p></div><button type="button" class="section-back" onclick="go('dash')" aria-label="الرجوع للرئيسية">← رجوع</button><span class="section-chip">شي آن النيل</span></div><div class="section-content">${content}</div></section>`;if(tab==='dash')dashFit();if(a){const m=$('mn');m.classList.remove('an');void m.offsetWidth;m.classList.add('an')}}
 function moreM(){om(`<h3>المزيد</h3><div class="g" style="grid-template-columns:1fr 1fr">${['exp','rep','log'].map(k=>`<button class="b s" style="padding:18px;font-size:15px" onclick="tab='${k}';cm();render(1);scrollTo(0,0)"><span style="font-size:26px">${IC[k]}</span><br>${TABS[k]}</button>`).join('')}</div>`)}
 const card=(l,v,i,c)=>`<div class="st"><div class="ic ${c}">${i}</div><div><small>${l}</small><b>${v}</b></div></div>`;
 function totals(sales,payments,expenses,debts){const rev=sum(sales,'total_price'),cogs=sum(sales,'total_cost'),cash=sum(sales.filter(s=>s.sale_type=='cash'),'total_price'),exp=sum(expenses,'amount'),rec=sum(sales,'paid')+sum(payments,'amount');
