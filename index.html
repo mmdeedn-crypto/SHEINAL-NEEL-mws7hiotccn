@@ -266,7 +266,7 @@ do $$ declare t text; begin foreach t in array array['customers','sales','debts'
 </script>
 <script>
 // ===== ضع بيانات مشروعك (Publishable/Anon key فقط، لا Service Role) =====
-const URL_='https://rsrpvitvattyrjrsbfry.supabase.co', KEY='sb_publishable_n6827_zGETE7DMHxzwIQQ_0-rlJgES';
+const URL_='https://rsrpvitvattyrjrsbfry.supabase.co', KEY='sb_publishable_n6827d_zGETE7DMHxzwIQQ_0-rlJgES';
 const sb=supabase.createClient(URL_,KEY,{auth:{persistSession:false,autoRefreshToken:false}});
 let S={customers:[],debts:[],payments:[],sales:[],sale_items:[],expenses:[],notifications:[],activity_logs:[]},me=null,tab='dash',T=null,key=null;
 const $=i=>document.getElementById(i),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
