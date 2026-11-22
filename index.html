@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SHEIN AL-NEEL | شي آن النيل</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--bg:#f6f7f0;--card:#fff;--tx:#26301a;--mu:#6f7660;--pr:#5f6f2c;--ok:#16915f;--bad:#d03b4b;--bd:#dfe3cf}
+*{box-sizing:border-box}body{margin:0;font-family:Cairo,Tahoma,Arial,sans-serif;background:var(--bg);color:var(--tx)}
+#app{display:flex;min-height:100vh}
+aside{width:228px;background:linear-gradient(180deg,#3e4a1d,#5f6f2c);color:#fff;position:sticky;top:0;height:100vh;padding:20px 12px;display:flex;flex-direction:column;gap:20px;flex-shrink:0}
+.lg{text-align:center}.lg b{display:block;font-size:19px;letter-spacing:1px}.lg small{opacity:.8}
+nav{display:flex;flex-direction:column;gap:4px}
+nav button{display:flex;align-items:center;gap:10px;border:0;background:none;color:#fff;opacity:.8;padding:11px 12px;border-radius:10px;font:inherit;cursor:pointer;text-align:right}
+nav button i{font-style:normal;font-size:18px}nav button.on{background:#ffffff28;opacity:1;font-weight:700}
+.mw{flex:1;min-width:0}header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+header h1{margin:0;font-size:20px}#st{font-size:13px;color:var(--mu)}main{padding:18px 20px 40px;max-width:1100px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.st{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:14px;padding:14px;border:1px solid var(--bd);box-shadow:0 1px 4px #3a4a1a14}
+.st small{display:block;color:var(--mu);font-size:12.5px}.st b{font-size:18px}
+.ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.ic.r{background:#fde8ea}.ic.g{background:#def5ea}.ic.p{background:#e8edd2}.ic.y{background:#fcefd6}.ic.b{background:#d9f0ef}
+.hero{background:linear-gradient(135deg,#5f6f2c,#8c9f3f);color:#fff;border-radius:18px;padding:20px}.hero small{opacity:.85}.hero b{display:block;font-size:30px;margin:4px 0 10px}.hs{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;opacity:.9}
+.sh{font-size:15px;margin:22px 0 10px;color:var(--pr)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:22px}
+.c,.c2{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;box-shadow:0 1px 4px #3a4a1a14}.c2 h3{margin:0 0 10px;font-size:15px}
+.nt{padding:8px 0;border-bottom:1px solid var(--bd);font-size:13.5px}.nt:last-child{border:0}.nt small{color:var(--mu);display:block}
+.sc{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:14px;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th{background:#eef1df;color:var(--pr);white-space:nowrap}th,td{padding:10px 12px;text-align:right;border-bottom:1px solid var(--bd)}tr:last-child td{border:0}
+.tb{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.tb input,.tb select{width:auto;flex:1;min-width:140px;margin:0}
+input,select,textarea{width:100%;padding:10px 12px;margin:4px 0 10px;border:1px solid var(--bd);border-radius:10px;font:inherit;background:#fff;color:var(--tx)}
+.b{background:var(--pr);color:#fff;border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}.b.s{background:#e6ebd3;color:var(--pr)}.b.sm{padding:5px 10px;font-size:13px}
+.chs{display:flex;gap:6px;flex-wrap:wrap;flex:1}.ch{border:1px solid var(--bd);background:#fff;border-radius:20px;padding:7px 14px;font:inherit;font-size:13px;cursor:pointer}.ch.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+.cc{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;cursor:pointer;box-shadow:0 1px 4px #3a4a1a14}
+.av{width:46px;height:46px;border-radius:50%;background:var(--pr);color:#fff;display:grid;place-items:center;font-size:19px;font-weight:700;flex-shrink:0}
+.cc small{display:block;color:var(--mu)}.rm{font-weight:700;margin-top:4px;font-size:14px}
+.dc{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;box-shadow:0 1px 4px #3a4a1a14}.dc small{color:var(--mu)}
+.dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}.pb{height:8px;background:#e6ebd3;border-radius:6px;margin:10px 0;overflow:hidden}.pb i{display:block;height:100%;background:var(--ok)}
+.dn{display:flex;justify-content:space-between;text-align:center;font-size:12px;color:var(--mu)}.dn b{font-size:13.5px;color:var(--tx)}.dn b.ok{color:var(--ok)}.dn b.bad{color:var(--bad)}
+.tg{padding:3px 10px;border-radius:12px;font-size:12px;color:#fff;white-space:nowrap}.ok{color:var(--ok)}.bad{color:var(--bad)}
+.doc{background:#fff;color:#222;border-radius:14px;padding:20px;border:1px solid var(--bd)}.doc.pdf{width:780px;border:0}
+.dt{text-align:center;border-bottom:3px solid var(--pr);padding-bottom:12px;margin-bottom:14px}.dt b{display:block;font-size:22px;color:var(--pr);letter-spacing:1px}.dt span{display:block;font-size:16px}.dt small{color:var(--mu)}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}.bx{background:#eef1df;border-radius:10px;padding:10px;text-align:center}.bx small{display:block;color:var(--mu);font-size:12px}.bx b{font-size:14px}
+.doc h4{margin:16px 0 4px;color:var(--pr)}.doc .sc{border-radius:8px;box-shadow:none}.cch{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+#md{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:20;padding:10px}#md>div{background:var(--card);border-radius:16px;padding:16px;max-width:720px;width:100%;max-height:92vh;overflow:auto}
+#tt{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 18px;border-radius:20px;display:none;z-index:99}
+@media(max-width:800px){#app{display:block}aside{position:fixed;top:auto;bottom:0;left:0;right:0;width:auto;height:auto;padding:6px;z-index:8;border-radius:16px 16px 0 0}.lg{display:none}nav{flex-direction:row;overflow-x:auto}
+nav button{flex-direction:column;gap:1px;font-size:11px;padding:6px 10px;min-width:62px;align-items:center}main{padding:14px 12px 100px}.g{grid-template-columns:1fr 1fr}.st{flex-direction:column;align-items:flex-start;gap:8px}.hero b{font-size:25px}.g4{grid-template-columns:1fr 1fr}}
+@media print{aside,header,.np{display:none!important}#md{position:static;background:none;display:block}}
+.dt{background:linear-gradient(135deg,#3e4a1d,#6b7d33);color:#fff;border:0;border-radius:12px;padding:18px;margin-bottom:16px}.dt b{color:#fff;font-size:24px}.dt span{font-size:15px;margin-top:2px}.dt small{color:#e4ecc4;display:block;margin-top:6px}
+.bx{background:#f3f5e8;border-top:3px solid #5f6f2c;border-radius:8px}.bx b{font-size:15px;color:#3e4a1d}
+.doc h4{border-right:4px solid #5f6f2c;padding-right:8px;margin:18px 0 6px;color:#3e4a1d;font-size:15px;break-after:avoid}
+.doc th{background:#5f6f2c;color:#fff}.doc tr:nth-child(even) td{background:#f7f8f0}.doc table{font-size:12.5px}.doc th,.doc td{padding:7px 9px}
+.ft{margin-top:18px;padding-top:10px;border-top:2px solid #5f6f2c;text-align:center;color:#6f7660;font-size:12px}
+.rb{background:#fdecee;border-radius:10px;padding:10px;text-align:center;margin:10px 0 4px}.rb small{color:var(--mu)}.rb b{display:block;font-size:22px;color:var(--bad)}.rb.z{background:#e4f4ec}.rb.z b{color:var(--ok);font-size:17px}
+@keyframes pg{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}@keyframes pop{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:none}}@keyframes bn{0%{transform:scale(1)}50%{transform:translateY(-5px) scale(1.25)}100%{transform:translateY(-2px) scale(1.15)}}
+.an>*{animation:pg .38s cubic-bezier(.2,.8,.2,1) both}.an .g>*,.an .cols>*{animation:pg .45s cubic-bezier(.2,.8,.2,1) both}.an .g>*:nth-child(2){animation-delay:.05s}.an .g>*:nth-child(3){animation-delay:.1s}.an .g>*:nth-child(4){animation-delay:.15s}.an .g>*:nth-child(n+5){animation-delay:.2s}
+#md>div{animation:pop .28s cubic-bezier(.2,.8,.2,1)}nav button{transition:background .25s,opacity .25s,transform .2s}nav button i{transition:transform .25s}nav button:active{transform:scale(.94)}
+.mo{display:none}nav button.on{box-shadow:inset -4px 0 0 #fff}
+@media(max-width:800px){aside{left:12px;right:12px;bottom:10px;border-radius:24px;background:#fff;color:var(--pr);padding:6px;box-shadow:0 10px 30px #2a3a1040;border:1px solid var(--bd)}
+nav{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;overflow:visible}nav button.hid{display:none}.mo{display:flex}
+nav button{min-width:0;color:var(--pr);opacity:.55;padding:8px 2px;border-radius:18px;font-size:11px;font-weight:600;box-shadow:none!important}nav button i{font-size:21px}
+nav button.on{opacity:1;background:linear-gradient(135deg,#3e4a1d,#6b7d33);color:#fff}nav button.on i{animation:bn .45s ease forwards}#tt{bottom:100px}main{padding-bottom:110px}}
+main{margin:0 auto;width:100%}.sh{display:flex;align-items:center;gap:8px}.sh:before{content:"";width:4px;height:16px;background:var(--pr);border-radius:3px}
+@media(min-width:801px){main{padding:24px 28px 48px}.cols{grid-template-columns:1.5fr 1fr}header{padding:16px 28px}aside{width:240px}}
+
+/* Premium form cards: shared visual system for customer, debt, payment and expense dialogs */
+#md{backdrop-filter:blur(7px);background:rgba(20,28,12,.62);padding:14px}
+#md>div{position:relative;overflow:auto;background:linear-gradient(155deg,#fff 0%,#fbfcf6 58%,#f0f3e4 100%);border:1px solid #e1e7cf;border-radius:24px;padding:24px;max-width:620px;box-shadow:0 28px 90px #10180d55}
+#mb h3{display:flex;align-items:center;gap:12px;margin:-24px -24px 22px;padding:20px 24px;color:#fff;font-size:19px;background:linear-gradient(120deg,#354218,#657b2d 68%,#87994a);border-radius:0 0 20px 20px;box-shadow:0 8px 22px #43551e28}
+#mb h3:before{content:'✦';width:38px;height:38px;display:grid;place-items:center;border-radius:13px;background:#ffffff24;border:1px solid #ffffff45;font-size:20px}
+#mb label{display:block;margin:12px 2px 4px;color:#52612b;font-weight:700;font-size:13px}
+#mb input,#mb select,#mb textarea{display:block;width:100%;min-height:48px;margin:5px 0 12px;padding:12px 14px;border:1px solid #dce3c9;border-radius:13px;background:#fff;box-shadow:0 3px 12px #34451a0a;outline:none;transition:border-color .2s,box-shadow .2s}
+#mb input:focus,#mb select:focus,#mb textarea:focus{border-color:#788d3c;box-shadow:0 0 0 4px #788d3c20}
+#mb textarea{min-height:90px;resize:vertical}
+#mb .c{border:1px solid #dfe6cd;border-radius:15px;background:linear-gradient(135deg,#f8faef,#eef2df)!important;padding:14px;box-shadow:inset 0 1px #fff;margin:10px 0 14px}
+#mb .b{min-height:48px;border-radius:13px;background:linear-gradient(120deg,#45551f,#71863a);box-shadow:0 7px 16px #52662b30;transition:transform .18s,filter .18s}
+#mb .b:hover{filter:brightness(1.06);transform:translateY(-1px)}
+#mb .b:disabled{opacity:.55;transform:none}
+#mb .b.s{background:#e8edd9;color:#465621;box-shadow:none}
+#mb p{background:#f1f4e6;border:1px solid #e0e7ce;border-radius:13px;padding:12px}
+@media(max-width:600px){#md{align-items:flex-end;padding:8px}#md>div{max-height:91vh;padding:19px;border-radius:22px 22px 16px 16px}#mb h3{margin:-19px -19px 18px;padding:17px 19px;font-size:17px}}
+</style></head><body>
+<div id="app" style="display:none"><aside><div class="lg"><b>SHEIN AL-NEEL</b><small>شي آن النيل</small></div><nav id="nv"></nav></aside><div class="mw"><header><h1 id="ttl"></h1><span id="st">●</span></header><main id="mn"></main></div></div><div id="md" onclick="if(event.target==this)cm()"><div id="mb"></div></div><div id="tt"></div>
+<script type="text/plain" id="sqlsrc">
+-- SHEIN AL-NEEL | شي آن النيل — قاعدة بيانات مفتوحة بدون حسابات (آمن لإعادة التشغيل، لا يحذف البيانات)
+create table if not exists customers(id uuid primary key default gen_random_uuid(), name text not null, phone text, address text, notes text, created_at timestamptz default now());
+create table if not exists products(id uuid primary key default gen_random_uuid(), name text not null, code text, category text, size text, color text, cost bigint not null default 0 check(cost>=0), price bigint not null default 0 check(price>=0), stock int not null default 0, sold int not null default 0, created_at timestamptz default now());
+create table if not exists sales(id uuid primary key default gen_random_uuid(), client_key uuid unique, customer_id uuid references customers, sale_type text not null check(sale_type in('cash','credit','partial')), total_cost bigint not null check(total_cost>=0), total_price bigint not null check(total_price>=0), paid bigint not null check(paid>=0), payment_method text, created_at timestamptz default now(), check(paid<=total_price));
+create table if not exists sale_items(id uuid primary key default gen_random_uuid(), sale_id uuid not null references sales, product_id uuid references products, name text not null, qty int not null check(qty>0), cost bigint not null check(cost>=0), price bigint not null check(price>=0));
+create table if not exists debts(id uuid primary key default gen_random_uuid(), customer_id uuid not null references customers, sale_id uuid references sales, description text, total bigint not null check(total>0), paid bigint not null default 0, due_date date, created_at timestamptz default now(), check(paid>=0 and paid<=total));
+create table if not exists payments(id uuid primary key default gen_random_uuid(), client_key uuid unique, debt_id uuid not null references debts, customer_id uuid not null references customers, amount bigint not null check(amount>0), method text, note text, created_at timestamptz default now());
+create table if not exists expenses(id uuid primary key default gen_random_uuid(), kind text not null, amount bigint not null check(amount>0), details text, notes text, created_at timestamptz default now());
+create table if not exists activity_logs(id uuid primary key default gen_random_uuid(), action text not null, customer_name text, amount bigint, user_name text, created_at timestamptz default now());
+create table if not exists notifications(id uuid primary key default gen_random_uuid(), kind text, message text not null, created_at timestamptz default now());
+create index if not exists i1 on customers(name); create index if not exists i2 on debts(customer_id); create index if not exists i3 on payments(debt_id); create index if not exists i4 on sales(created_at);
+
+-- تنظيف أي إعداد قديم فيه حسابات
+do $$ declare r record; begin for r in select policyname,tablename from pg_policies where schemaname='public' loop execute format('drop policy %I on %I',r.policyname,r.tablename); end loop; end $$;
+drop trigger if exists on_auth_user on auth.users; drop function if exists handle_new_user() cascade; drop table if exists profiles cascade; drop function if exists is_active() cascade; drop function if exists is_admin() cascade;
+
+-- صلاحيات مفتوحة للتطبيق: القراءة للجميع، والكتابة المالية عبر الدوال فقط
+do $$ declare t text; begin foreach t in array array['customers','products','sales','sale_items','debts','payments','expenses','activity_logs','notifications'] loop
+ execute format('alter table %I enable row level security',t);
+ execute format('create policy "read" on %I for select to anon,authenticated using(true)',t); end loop; end $$;
+create policy "w" on customers for all to anon,authenticated using(true) with check(true);
+create policy "w" on expenses for all to anon,authenticated using(true) with check(true);
+create policy "w" on products for all to anon,authenticated using(true) with check(true);
+create policy "w" on notifications for insert to anon,authenticated with check(true);
+create policy "w" on activity_logs for insert to anon,authenticated with check(true);
+
+create or replace function create_sale(p_customer uuid,p_item text,p_qty int,p_cost bigint,p_price bigint,p_paid bigint,p_due date,p_method text,p_key uuid) returns uuid language plpgsql security definer set search_path=public as $$
+declare v_id uuid; v_total bigint:=p_qty*p_price; v_type text; v_name text;
+begin
+ select id into v_id from sales where client_key=p_key; if found then return v_id; end if;
+ if p_qty<=0 or p_price<0 or p_cost<0 or p_paid<0 or p_paid>v_total then raise exception 'قيم غير صحيحة'; end if;
+ if p_customer is null and p_paid<v_total then raise exception 'اختر زبوناً للبيع بالدين'; end if;
+ v_type:=case when p_paid=v_total then 'cash' when p_paid=0 then 'credit' else 'partial' end;
+ insert into sales(client_key,customer_id,sale_type,total_cost,total_price,paid,payment_method) values(p_key,p_customer,v_type,p_qty*p_cost,v_total,p_paid,p_method) returning id into v_id;
+ insert into sale_items(sale_id,name,qty,cost,price) values(v_id,p_item,p_qty,p_cost,p_price);
+ if p_paid<v_total then insert into debts(customer_id,sale_id,description,total,paid,due_date) values(p_customer,v_id,p_item,v_total,p_paid,p_due); end if;
+ select name into v_name from customers where id=p_customer;
+ insert into activity_logs(action,customer_name,amount,user_name) values(case when v_type='cash' then 'بيع نقدي' else 'بيع بالدين' end,v_name,v_total,'المحل');
+ insert into notifications(kind,message) values('sale','عملية بيع بقيمة '||v_total||' د.ع '||coalesce('— '||v_name,''));
+ return v_id;
+end $$;
+
+create or replace function add_payment(p_debt uuid,p_amount bigint,p_method text,p_note text,p_key uuid) returns void language plpgsql security definer set search_path=public as $$
+declare d debts%rowtype; v_name text;
+begin
+ if exists(select 1 from payments where client_key=p_key) then return; end if;
+ select * into d from debts where id=p_debt for update;
+ if not found then raise exception 'الدين غير موجود'; end if;
+ if p_amount<=0 or p_amount>d.total-d.paid then raise exception 'المبلغ أكبر من المتبقي أو غير صحيح'; end if;
+ insert into payments(client_key,debt_id,customer_id,amount,method,note) values(p_key,p_debt,d.customer_id,p_amount,p_method,p_note);
+ update debts set paid=paid+p_amount where id=p_debt;
+ select name into v_name from customers where id=d.customer_id;
+ insert into activity_logs(action,customer_name,amount,user_name) values('تسديد دين',v_name,p_amount,'المحل');
+ insert into notifications(kind,message) values('payment',case when d.paid+p_amount=d.total then 'اكتمل تسديد دين '||v_name else 'تسديد '||p_amount||' د.ع من '||v_name end);
+end $$;
+revoke all on function create_sale,add_payment from public;
+grant execute on function create_sale,add_payment to anon,authenticated;
+
+-- Realtime
+do $$ declare t text; begin foreach t in array array['customers','sales','debts','payments','expenses','notifications','activity_logs'] loop
+ begin execute format('alter publication supabase_realtime add table %I',t); exception when duplicate_object then null; end; end loop; end $$;
+</script>
+<script>
+// ===== ضع بيانات مشروعك (Publishable/Anon key فقط، لا Service Role) =====
+const URL_='https://rsrpvitvattyrjrsbfry.supabase.co', KEY='sb_publishable_n6827d_zGETE7DMHxzwIQQ_0-rlJgES';
+const sb=supabase.createClient(URL_,KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+let S={customers:[],debts:[],payments:[],sales:[],expenses:[],notifications:[],activity_logs:[]},me=null,tab='dash',T=null,key=null;
+const $=i=>document.getElementById(i),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const f=n=>(Number(n)||0).toLocaleString('en-US')+' د.ع',num=v=>parseInt(String(v).replace(/\D/g,''))||0;
+const dt=s=>new Date(s).toLocaleString('ar-IQ',{timeZone:'Asia/Baghdad',dateStyle:'short',timeStyle:'short'});
+const ym=s=>new Date(s).toLocaleDateString('sv',{timeZone:'Asia/Baghdad'}).slice(0,7);
+const sum=(a,k)=>a.reduce((x,y)=>x+Number(y[k]||0),0),cust=id=>S.customers.find(c=>c.id==id)?.name||'—';
+function toast(m){const t=$('tt');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2800)}
+const cm=()=>$('md').style.display='none';function om(h){$('mb').innerHTML=h;$('md').style.display='flex'}
+const mon=e=>e.value=num(e.value)?num(e.value).toLocaleString('en-US'):'';
+function status(d){if(d.paid>=d.total)return['مسدد بالكامل','#1f8a5b'];if(d.due_date&&d.due_date<new Date().toISOString().slice(0,10))return['متأخر','#c23b3b'];return d.paid>0?['مسدد جزئياً','#c98a12']:['غير مسدد','#1c9aa0']}
+async function load(){try{await Promise.all(Object.keys(S).map(async t=>{const{data,error}=await sb.from(t).select('*').order('created_at',{ascending:false});if(error)throw error;S[t]=data}));render()}catch(e){toast('تعذر تحميل البيانات')}}
+function conn(ok){$('st').style.color=ok?'#16915f':'#d03b4b';$('st').textContent=ok?'● متصل':'● غير متصل'}
+async function start(){if(KEY.startsWith('YOUR')){DEMO=true;$('app').style.display='';$('st').textContent='● غير مربوط بقاعدة البيانات';tab='dash';render();return}
+ $('app').style.display='';await load();
+ ch=sb.channel('all-'+Date.now()).on('postgres_changes',{event:'*',schema:'public'},()=>{clearTimeout(T);T=setTimeout(load,300)}).subscribe(s=>conn(s=='SUBSCRIBED'));
+ poll=setInterval(()=>{if(navigator.onLine&&$('md').style.display!='flex')load()},30000)}
+let ch=null,poll=null,DEMO=false;
+addEventListener('offline',()=>conn(false));addEventListener('online',()=>{conn(true);load()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
+const TABS={dash:'الرئيسية',cust:'الزبائن',debt:'الديون',sale:'المبيعات',exp:'المصروفات',rep:'الجرد',log:'السجل'},IC={dash:'🏠',cust:'👥',debt:'💳',sale:'🛍️',exp:'🧾',rep:'📊',log:'🕘'};
+function render(a){const M=['exp','rep','log'];$('nv').innerHTML=Object.entries(TABS).map(([k,v])=>`<button class="${k==tab?'on':''} ${M.includes(k)?'hid':''}" onclick="tab='${k}';render(1);scrollTo(0,0)"><i>${IC[k]}</i><span>${v}</span></button>`).join('')+`<button class="mo ${M.includes(tab)?'on':''}" onclick="moreM()"><i>☰</i><span>المزيد</span></button>`;$('ttl').textContent=TABS[tab];$('mn').innerHTML=V[tab]();if(a){const m=$('mn');m.classList.remove('an');void m.offsetWidth;m.classList.add('an')}}
+function moreM(){om(`<h3>المزيد</h3><div class="g" style="grid-template-columns:1fr 1fr">${['exp','rep','log'].map(k=>`<button class="b s" style="padding:18px;font-size:15px" onclick="tab='${k}';cm();render(1);scrollTo(0,0)"><span style="font-size:26px">${IC[k]}</span><br>${TABS[k]}</button>`).join('')}</div>`)}
+const card=(l,v,i,c)=>`<div class="st"><div class="ic ${c}">${i}</div><div><small>${l}</small><b>${v}</b></div></div>`;
+function totals(sales,payments,expenses,debts){const rev=sum(sales,'total_price'),cogs=sum(sales,'total_cost'),cash=sum(sales.filter(s=>s.sale_type=='cash'),'total_price'),exp=sum(expenses,'amount'),rec=sum(sales,'paid')+sum(payments,'amount');
+ return{rev,cogs,cash,credit:rev-cash,gross:rev-cogs,exp,net:rev-cogs-exp,rec,pay:sum(payments,'amount'),rem:sum(debts,'total')-sum(debts,'paid')}}
+const V={
+dash(){const t=totals(S.sales,S.payments,S.expenses,S.debts),ds=S.debts,cu=new Set(ds.filter(d=>Number(d.total)>Number(d.paid)).map(d=>d.customer_id));
+ const recent=S.activity_logs.slice(0,5);
+ return`<div class="g" style="margin-bottom:16px">${card('عدد الزبائن',S.customers.length,'👥','p')}${card('مجموع الديون المتبقية',f(t.rem),'💳','r')}${card('مجموع المبالغ المستلمة',f(t.rec),'💵','g')}${card('صافي الأرباح',f(t.net),'📈',t.net<0?'r':'g')}</div>
+ <div class="c2"><h3>ملخص المحل</h3><div class="hs" style="color:var(--mu);opacity:1"><span>المبيعات: <b>${f(t.rev)}</b></span><span>المصاريف: <b>${f(t.exp)}</b></span><span>الزبائن المدينون: <b>${cu.size}</b></span><span>ديون متأخرة: <b>${ds.filter(d=>status(d)[0]=='متأخر').length}</b></span></div></div>
+ <h2 class="sh">آخر الحركات</h2><div class="c">${recent.map(x=>`<div class="nt"><b>${esc(x.action)}</b> — ${esc(x.customer_name||'')}</div><small>${dt(x.created_at)} ${x.amount?(' — '+f(x.amount)):''}</small>`).join('')||'لا توجد حركات مسجلة بعد'}</div>`},
+cust(){return`<div class="tb np"><input placeholder="🔍 بحث بالاسم أو الهاتف" oninput="cf=this.value;$('cl').innerHTML=cl()"><select onchange="cd=this.value;$('cl').innerHTML=cl()"><option value="">كل الزبائن</option><option value="d">المدينون فقط</option><option value="p">المسددون كلياً</option></select><button class="b" onclick="custForm()">+ زبون جديد</button></div><div class="g" id="cl" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr))">${cl()}</div>`},
+debt(){const A=['غير مسدد','مسدد جزئياً','مسدد بالكامل','متأخر'];return`<div class="g" style="margin-bottom:12px">${card('إجمالي المتبقي من الديون',f(S.debts.reduce((a,d)=>a+d.total-d.paid,0)),'💳','r')}${card('إجمالي المسدد',f(S.debts.reduce((a,d)=>a+d.paid,0)),'✅','g')}${card('عدد الديون',S.debts.length,'🧾','p')}</div><div class="tb np"><div class="chs"><button class="ch ${df?'':'on'}" onclick="df='';render()">الكل (${S.debts.length})</button>${A.map(a=>`<button class="ch ${df==a?'on':''}" onclick="df='${a}';render()">${a} (${S.debts.filter(d=>status(d)[0]==a).length})</button>`).join('')}</div><button class="b" onclick="saleForm()">+ دين جديد</button></div><div class="g" id="dl" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">${dl()}</div>`},
+sale(){return`<button class="b" onclick="saleForm()">+ عملية بيع</button><div class="sc"><table><tr><th>التاريخ</th><th>الزبون</th><th>النوع</th><th>الإجمالي</th><th>المدفوع</th><th>الربح</th></tr>${S.sales.map(s=>`<tr><td>${dt(s.created_at)}</td><td>${esc(cust(s.customer_id))}</td><td>${{cash:'نقدي',credit:'دين',partial:'دفعة+دين'}[s.sale_type]}</td><td>${f(s.total_price)}</td><td>${f(s.paid)}</td><td>${f(s.total_price-s.total_cost)}</td></tr>`).join('')}</table></div>`},
+exp(){return`<div class="c"><select id="xk">${['إيجار المحل','الكهرباء','النقل','الصيانة','أجور العمال','أخرى'].map(x=>`<option>${x}</option>`).join('')}</select><input id="xa" inputmode="numeric" placeholder="المبلغ د.ع" oninput="mon(this)"><input id="xd" placeholder="تفاصيل"><button class="b" onclick="addExp()">حفظ المصروف</button></div><div class="sc"><table><tr><th>التاريخ</th><th>النوع</th><th>المبلغ</th><th>تفاصيل</th></tr>${S.expenses.map(x=>`<tr><td>${dt(x.created_at)}</td><td>${esc(x.kind)}</td><td>${f(x.amount)}</td><td>${esc(x.details)}</td></tr>`).join('')}</table></div>`},
+rep(){const m=window.rm||ym(new Date()),r=R(m),p=R(prev(m)),mm=x=>ym(x.created_at)==m;
+ const rows=[['إجمالي المبيعات','rev'],['المبالغ المستلمة من المبيعات','saleReceived'],['تسديدات الديون','pay'],['إجمالي النقد المستلم','rec'],['تكلفة البضاعة المباعة','cogs'],['الربح الإجمالي','gross'],['المصروفات','exp'],['صافي الربح','net'],['قيمة الديون الجديدة','nd']];
+ return`<div class="tb np"><input type="month" value="${m}" onchange="rm=this.value;render()"><button class="b" onclick="pdf('rp','جرد-${m}')">⬇ تحميل PDF</button><button class="b s" onclick="csv()">Excel</button><button class="b s" onclick="print()">🖨 طباعة</button></div>
+<div id="rp" class="doc"><div class="dt"><b>SHEIN AL-NEEL</b><span>الجرد الشهري – شي آن النيل</span><small>الشهر: ${m} — تاريخ الإنشاء: ${dt(new Date())}</small></div>
+<div class="g4">${[['إجمالي المبيعات',r.rev],['صافي الربح',r.net],['المصروفات',r.exp],['النقد المستلم',r.rec]].map(x=>`<div class="bx"><small>${x[0]}</small><b>${f(x[1])}</b></div>`).join('')}</div>
+<h4>الملخص المالي للشهر</h4>${TB(['البند','المبلغ'],rows.map(([l,k])=>[l,f(r[k])]))}
+<h4>مقارنة صافي الربح بالشهر السابق</h4>${TB(['الشهر الحالي','الشهر السابق','الفرق'],[[f(r.net),f(p.net),`<span class="${r.net>=p.net?'ok':'bad'}">${f(r.net-p.net)}</span>`]])}
+<h4>وضع الديون الحالي</h4>${TB(['عدد الزبائن المدينين حالياً','إجمالي الديون المتبقية حالياً'],[[String(r.debtors),f(r.rem)]])}
+<h4>تفاصيل المبيعات</h4>${TB(['التاريخ','الزبون','النوع','الإجمالي','المبلغ المستلم','الربح'],S.sales.filter(mm).map(s=>[dt(s.created_at),esc(cust(s.customer_id)),{cash:'نقدي',credit:'دين',partial:'دفعة+دين'}[s.sale_type],f(s.total_price),f(s.paid),f(s.total_price-s.total_cost)]))}
+<h4>كشف ديون الزبائن خلال الشهر</h4>${(()=>{const items=S.debts.filter(mm).slice().sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));return TB(['التاريخ والوقت','اسم الزبون','تفاصيل الدين','إجمالي الدين','المبلغ المدفوع','المبلغ المتبقي'],items.map(d=>[dt(d.created_at),esc(cust(d.customer_id)),esc(d.description||'—'),f(d.total),f(d.paid),f(Math.max(0,Number(d.total)-Number(d.paid)))]))})()}
+<h4>التسديدات خلال الشهر</h4>${TB(['التاريخ','الزبون','المبلغ','الطريقة'],S.payments.filter(mm).map(x=>[dt(x.created_at),esc(cust(x.customer_id)),f(x.amount),esc(x.method)]))}
+<h4>المصروفات خلال الشهر</h4>${TB(['التاريخ','النوع','المبلغ','التفاصيل'],S.expenses.filter(mm).map(x=>[dt(x.created_at),esc(x.kind),f(x.amount),esc(x.details)]))}<div class="ft">SHEIN AL-NEEL | شي آن النيل — جرد شهري مُنشأ آلياً</div></div>`},
+log(){return`<div class="sc"><table><tr><th>التاريخ</th><th>العملية</th><th>الزبون</th><th>المبلغ</th><th>المستخدم</th></tr>${S.activity_logs.map(l=>`<tr><td>${dt(l.created_at)}</td><td>${esc(l.action)}</td><td>${esc(l.customer_name)}</td><td>${l.amount?f(l.amount):''}</td><td>${esc(l.user_name)}</td></tr>`).join('')}</table></div>`}};
+let cf='',cd='',df='';
+function cl(){const rem=id=>S.debts.filter(d=>d.customer_id==id).reduce((a,d)=>a+d.total-d.paid,0);
+ return S.customers.filter(c=>(c.name+(c.phone||'')).includes(cf)&&(cd==''||(cd=='d'?rem(c.id)>0:S.debts.some(d=>d.customer_id==c.id)&&rem(c.id)==0))).map(c=>{const r=rem(c.id);return`<div class="cc" onclick="cdet('${c.id}')"><div class="av">${esc(c.name[0])}</div><div><b>${esc(c.name)}</b><small>${esc(c.phone||'')}</small><div class="rm ${r?'bad':'ok'}">${r?'المتبقي: '+f(r):'لا ديون ✓'}</div></div></div>`}).join('')||'<div class="c">لا يوجد زبائن</div>'}
+function dl(){return S.debts.filter(d=>!df||status(d)[0]==df).map(d=>{const s=status(d),pc=Math.round(d.paid/d.total*100);return`<div class="dc"><div class="dh"><b>${esc(cust(d.customer_id))}</b><span class="tg" style="background:${s[1]}">${s[0]}</span></div><small>${esc(d.description)}${d.due_date?' — الاستحقاق: '+d.due_date:''}</small><div class="rb ${d.total-d.paid?'':'z'}"><small>المتبقي من الدين</small><b>${d.total-d.paid?f(d.total-d.paid):'0 د.ع ✓ مسدد'}</b></div><div class="pb"><i style="width:${pc}%"></i></div><div class="dn"><span>الإجمالي<br><b>${f(d.total)}</b></span><span>المسدد<br><b class="ok">${f(d.paid)}</b></span><span>نسبة السداد<br><b>${pc}%</b></span></div>${d.paid<d.total?`<button class="b" style="width:100%;margin-top:10px" onclick="payForm('${d.id}')">تسديد دفعة</button>`:''}</div>`}).join('')||'<div class="c">لا توجد ديون</div>'}
+const TB=(h,b)=>`<div class="sc"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${b.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${h.length}">لا توجد بيانات</td></tr>`}</table></div>`;
+async function pdf(id,name){const el=$(id);toast('جارٍ تجهيز PDF…');el.classList.add('pdf');try{await html2pdf().set({margin:8,filename:name+'.pdf',image:{type:'jpeg',quality:.95},html2canvas:{scale:2,scrollX:0,scrollY:0},jsPDF:{unit:'mm',format:'a4'},pagebreak:{mode:['css','legacy'],avoid:'tr'}}).from(el).save()}catch(e){toast('تعذر إنشاء PDF')}el.classList.remove('pdf')}
+function prev(m){let[y,n]=m.split('-').map(Number);n--;if(!n){n=12;y--}return y+'-'+String(n).padStart(2,'0')}
+function R(m){const s=S.sales.filter(x=>ym(x.created_at)==m),p=S.payments.filter(x=>ym(x.created_at)==m),e=S.expenses.filter(x=>ym(x.created_at)==m),d=S.debts.filter(x=>ym(x.created_at)==m);const rev=sum(s,'total_price'),cogs=sum(s,'total_cost'),exp=sum(e,'amount'),saleReceived=sum(s,'paid'),pay=sum(p,'amount'),rec=saleReceived+pay;return{rev,cogs,gross:rev-cogs,exp,net:rev-cogs-exp,saleReceived,pay,rec,nd:s.reduce((a,x)=>a+Math.max(0,Number(x.total_price)-Number(x.paid)),0),cnt:s.length,cust:new Set(s.map(x=>x.customer_id).filter(Boolean)).size,debtors:new Set(S.debts.filter(x=>Number(x.total)>Number(x.paid)).map(x=>x.customer_id)).size,rem:S.debts.reduce((a,x)=>a+Number(x.total)-Number(x.paid),0),cash:sum(s.filter(x=>x.sale_type=='cash'),'total_price'),credit:s.reduce((a,x)=>a+Math.max(0,Number(x.total_price)-Number(x.paid)),0)}}
+function chart(){const ms=[...new Set(S.sales.map(s=>ym(s.created_at)))].sort().slice(-6),v=ms.map(m=>R(m).net),mx=Math.max(1,...v.map(Math.abs));return ms.length?`<div style="display:flex;gap:8px;align-items:flex-end;height:120px">${ms.map((m,i)=>`<div style="flex:1;text-align:center;font-size:11px"><div style="height:${Math.abs(v[i])/mx*90}px;background:${v[i]<0?'var(--bad)':'var(--ok)'};border-radius:4px"></div>${m.slice(5)}<br>${(v[i]/1000).toFixed(0)}k</div>`).join('')}</div>`:'لا بيانات'}
+function csv(){const m=window.rm||ym(new Date()),r=R(m),L=[['البند','القيمة'],...Object.entries(r)],b=new Blob(['\ufeff'+L.map(x=>x.join(',')).join('\n')],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='report-'+m+'.csv';a.click()}
+function custForm(){om(`<h3>زبون جديد</h3><input id="n" placeholder="الاسم الكامل"><input id="ph" inputmode="tel" placeholder="الهاتف"><input id="ad" placeholder="العنوان"><textarea id="nt" placeholder="ملاحظات"></textarea><button class="b" onclick="saveCust()">حفظ</button>`)}
+async function mkCust(n,ph,ad,nt){const{data,error}=await sb.from('customers').insert({name:n,phone:ph,address:ad,notes:nt}).select().single();if(error)throw error;await sb.from('activity_logs').insert({action:'إضافة زبون',customer_name:n,user_name:'المحل'});return data}
+async function saveCust(){if(DEMO)return toast('اربط قاعدة البيانات أولاً (تبويب الإعداد)');if(!$('n').value.trim())return toast('الاسم مطلوب');try{await mkCust($('n').value.trim(),$('ph').value,$('ad').value,$('nt').value);cm();toast('تمت الإضافة')}catch(e){toast('فشل الحفظ')}}
+function saleForm(){key=crypto.randomUUID();const today=new Date().toLocaleDateString('ar-IQ',{timeZone:'Asia/Baghdad',dateStyle:'full'});om(`<h3>إضافة بيع / دين</h3><label>اختيار الزبون</label><select id="sc" onchange="customerPicked()"><option value="">— اختر زبوناً مسجلاً —</option>${S.customers.map(c=>`<option value="${c.id}">${esc(c.name)}${c.phone?' — '+esc(c.phone):''}</option>`).join('')}</select><div id="customerInfo" class="c" style="display:none;margin-bottom:10px;background:#f3f5e8"></div><div id="newCustomer"><label>أو إضافة زبون جديد</label><input id="sn" placeholder="اسم الزبون الجديد"><input id="sp" placeholder="رقم الهاتف" inputmode="tel"></div>
+ <label>تفاصيل القطعة</label><input id="it" placeholder="مثال: قميص / بنطلون / فستان"><label>الكمية</label><input id="q" inputmode="numeric" placeholder="الكمية" value="1" oninput="sc2()"><label>سعر الشراء للقطعة (د.ع)</label><input id="co" inputmode="numeric" placeholder="سعر الشراء للقطعة" oninput="mon(this);sc2()"><label>سعر البيع للقطعة (د.ع)</label><input id="pr" inputmode="numeric" placeholder="سعر البيع للقطعة" oninput="mon(this);sc2()"><label>المبلغ المستلم (د.ع)</label><input id="pd" inputmode="numeric" placeholder="المبلغ المستلم الآن" oninput="mon(this);sc2()"><div id="tl" class="c" style="margin:4px 0 12px;background:#f3f5e8"></div><div class="c" style="margin-bottom:10px"><small>تاريخ تسجيل العملية (تلقائي)</small><b style="display:block">${today}</b></div><label>موعد التسديد المتفق عليه (اختياري)</label><input id="du" type="date"><label>طريقة الاستلام</label><select id="me"><option>نقدي</option><option>تحويل</option><option>بطاقة</option></select><button class="b" id="sv" onclick="saveSale()" style="width:100%;margin-top:8px">حفظ العملية</button>`);customerPicked();sc2()}
+function customerPicked(){const id=$('sc')?.value,c=S.customers.find(x=>x.id==id),box=$('customerInfo'),nw=$('newCustomer');if(!box||!nw)return;if(c){nw.style.display='none';box.style.display='block';box.innerHTML=`<b>بيانات الزبون</b><div style="margin-top:6px">الاسم: ${esc(c.name)}<br>رقم الهاتف: ${esc(c.phone||'غير مسجل')}<br>العنوان: ${esc(c.address||'غير مسجل')}<br>ملاحظات: ${esc(c.notes||'لا توجد')}</div>`}else{nw.style.display='block';box.style.display='none';box.innerHTML=''}}
+function sc2(){const q=num($('q')?.value),t=q*num($('pr')?.value),paid=num($('pd')?.value),cost=q*num($('co')?.value),remaining=t-paid,profit=t-cost;const el=$('tl');if(el)el.innerHTML=`<b>إجمالي البيع: ${f(t)}</b><br>المبلغ المستلم: ${f(paid)}<br><b style="color:${remaining>0?'var(--bad)':'var(--ok)'}">المتبقي على الزبون: ${f(remaining)}</b><br>الربح المتوقع: ${f(profit)}`}
+async function saveSale(){if(DEMO)return toast('اربط قاعدة البيانات أولاً (تبويب الإعداد)');const b=$('sv');b.disabled=true;try{let c=$('sc').value;if(!c&&$('sn').value.trim())c=(await mkCust($('sn').value.trim(),$('sp').value,'','')).id;
+ const{error}=await sb.rpc('create_sale',{p_customer:c||null,p_item:$('it').value||'ملابس',p_qty:num($('q').value),p_cost:num($('co').value),p_price:num($('pr').value),p_paid:num($('pd').value),p_due:$('du').value||null,p_method:$('me').value,p_key:key});if(error)throw error;cm();toast('تم تسجيل العملية');load()}catch(e){toast(e.message?.includes('fetch')?'لا يوجد اتصال، أعد المحاولة':'تعذر الحفظ: '+(e.message||''))}b.disabled=false}
+function payForm(id){key=crypto.randomUUID();const d=S.debts.find(x=>x.id==id);om(`<h3>تسديد — ${esc(cust(d.customer_id))}</h3><p>المتبقي: ${f(d.total-d.paid)}</p><input id="pa" inputmode="numeric" placeholder="المبلغ" oninput="mon(this)"><select id="pm"><option>نقدي</option><option>تحويل</option></select><input id="pn" placeholder="ملاحظات"><button class="b" onclick="savePay('${id}')">تسجيل التسديد</button>`)}
+async function savePay(id){if(DEMO)return toast('اربط قاعدة البيانات أولاً (تبويب الإعداد)');const{error}=await sb.rpc('add_payment',{p_debt:id,p_amount:num($('pa').value),p_method:$('pm').value,p_note:$('pn').value,p_key:key});if(error)return toast(error.message.includes('المتبقي')?'المبلغ أكبر من المتبقي':'تعذر التسجيل');cm();toast('تم التسديد');load()}
+async function addExp(){if(DEMO)return toast('اربط قاعدة البيانات أولاً (تبويب الإعداد)');const a=num($('xa').value);if(!a)return toast('أدخل المبلغ');const{error}=await sb.from('expenses').insert({kind:$('xk').value,amount:a,details:$('xd').value});error?toast('تعذر الحفظ'):(toast('تم الحفظ'),load())}
+function cdet(id){const c=S.customers.find(x=>x.id==id),d=S.debts.filter(x=>x.customer_id==id),p=S.payments.filter(x=>x.customer_id==id),s=S.sales.filter(x=>x.customer_id==id),rem=sum(d,'total')-sum(d,'paid');
+ om(`<div id="stm" class="doc"><div class="dt"><b>SHEIN AL-NEEL</b><span>كشف حساب زبون – شي آن النيل</span></div><div class="cch"><div class="av">${esc(c.name[0])}</div><div><b>${esc(c.name)}</b><br><small>${esc(c.phone||'')} — بداية التعامل: ${dt(c.created_at)}</small></div></div>
+<div class="g4">${[['المشتريات',sum(s,'total_price')],['إجمالي الديون',sum(d,'total')],['المسدد',sum(d,'paid')],['المتبقي',rem]].map(x=>`<div class="bx"><small>${x[0]}</small><b>${f(x[1])}</b></div>`).join('')}</div>
+<h4>الديون</h4>${TB(['التاريخ','الوصف','الإجمالي','المتبقي'],d.map(x=>[dt(x.created_at),esc(x.description),f(x.total),f(x.total-x.paid)]))}<h4>التسديدات</h4>${TB(['التاريخ','المبلغ','الطريقة'],p.map(x=>[dt(x.created_at),f(x.amount),esc(x.method)]))}<div class="ft">SHEIN AL-NEEL | شي آن النيل — تقرير مُنشأ آلياً من نظام المحاسبة</div></div>
+<div class="np" style="display:flex;gap:8px;margin-top:12px"><button class="b" onclick="pdf('stm','كشف-حساب')">⬇ تحميل PDF</button><button class="b s" onclick="cm()">إغلاق</button></div>`)}
+start();
+</script></body></html>
