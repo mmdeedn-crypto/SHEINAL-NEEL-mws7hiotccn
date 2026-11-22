@@ -181,6 +181,33 @@ body.offl .conn{display:flex!important}
 }
 #appVersion{display:inline-flex;align-items:center;justify-content:center;padding:4px 10px;border:1px solid #dfe3cf;border-radius:999px;background:#ffffffb8;color:#5f6f2c;font-size:11px;font-weight:700;white-space:nowrap;direction:ltr;box-shadow:0 2px 8px #26301a12}
 
+/* Mobile repair: keep reports and every section inside the phone viewport */
+html,body{max-width:100%;overflow-x:hidden}
+#app,.mw,#mn,.section-page,.section-content{min-width:0;max-width:100%}
+.section-content{width:100%;overflow:visible}
+.section-content .sc{display:block;width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.section-content .sc table{min-width:620px;width:100%;border-collapse:collapse}
+.section-content .tb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;max-width:100%}
+.section-content .tb input,.section-content .tb select{min-width:0;max-width:100%;flex:1 1 150px}
+.section-content .g4{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.section-content .doc{width:100%;max-width:100%;overflow:hidden}
+.section-content .doc .dt{overflow-wrap:anywhere}
+.section-content .doc .bx{min-width:0;overflow-wrap:anywhere}
+@media(max-width:600px){
+  .section-page{padding:0 0 18px}
+  .section-head{width:100%;min-width:0;box-sizing:border-box}
+  .section-head>div:nth-child(2){min-width:0;overflow-wrap:anywhere}
+  .section-head h2{overflow-wrap:anywhere}
+  .section-content .g{grid-template-columns:1fr!important}
+  .section-content .g4{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .section-content .tb{padding:10px}
+  .section-content .doc{padding:0}
+  .section-content .doc .dt{padding:14px}
+  .section-content .doc .bx b{font-size:13px}
+  .section-content .doc table{min-width:680px}
+  .section-content button,.section-content input,.section-content select{max-width:100%}
+  .section-content .section-head{gap:8px}
+}
 /* Unified section design — matches the SHEIN AL-NEEL home palette */
 .section-page{max-width:1180px;margin:0 auto;padding:2px 0 24px}
 .section-head{display:flex;align-items:center;gap:14px;margin:0 0 18px;padding:18px 20px;border:1px solid #dfe5ce;border-radius:20px;background:linear-gradient(120deg,#3e4a1d 0%,#5f6f2c 58%,#87994a 100%);color:#fff;box-shadow:0 10px 26px #34451a20;position:relative;overflow:hidden}
@@ -289,7 +316,7 @@ let ch=null,poll=null,DEMO=false,lastSyncAt=0;
 addEventListener('offline',()=>conn(false));addEventListener('online',()=>{conn(true);load({background:true})});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-lastSyncAt>120000)load({background:true})});
 const TABS={dash:'الرئيسية',cust:'الزبائن',debt:'الديون',sale:'المبيعات',exp:'المصروفات',rep:'الجرد',log:'السجل'},IC={dash:'🏠',cust:'👥',debt:'💳',sale:'🛍️',exp:'🧾',rep:'📊',log:'🕘'};
-function render(a){const M=['exp','rep','log'];$('nv').innerHTML=Object.entries(TABS).map(([k,v])=>`<button class="${k==tab?'on':''} ${M.includes(k)?'hid':''}" onclick="tab='${k}';render(1);scrollTo(0,0)"><i>${IC[k]}</i><span>${v}</span></button>`).join('')+`<button class="mo ${M.includes(tab)?'on':''}" onclick="moreM()"><i>☰</i><span>المزيد</span></button>`;$('ttl').textContent=TABS[tab];document.body.classList.toggle('dm',tab==='dash');const content=V[tab]();$('mn').innerHTML=tab==='dash'?content:`<section class="section-page"><div class="section-head"><div class="section-mark">${IC[tab]}</div><div><small>SHEIN AL-NEEL · إدارة المحل</small><h2>${TABS[tab]}</h2><p>كل بياناتك مرتبة بنفس هوية وتصميم النظام</p></div><span class="section-chip">شي آن النيل</span></div><div class="section-content">${content}</div></section>`;if(tab==='dash')dashFit();if(a){const m=$('mn');m.classList.remove('an');void m.offsetWidth;m.classList.add('an')}}
+function render(a){const M=['exp','rep','log'];$('nv').innerHTML=Object.entries(TABS).map(([k,v])=>`<button class="${k==tab?'on':''} ${M.includes(k)?'hid':''}" onclick="tab='${k}';render(1);scrollTo(0,0)"><i>${IC[k]}</i><span>${v}</span></button>`).join('')+`<button class="mo ${M.includes(tab)?'on':''}" onclick="moreM()"><i>☰</i><span>المزيد</span></button>`;$('ttl').textContent=TABS[tab];document.body.classList.toggle('dm',tab==='dash');let content='';try{if(!V[tab])throw new Error('القسم غير معروف: '+tab);content=V[tab]()}catch(e){console.error('Section render error:',tab,e);content=`<div class="c" style="padding:18px"><b>تعذر فتح القسم</b><p style="margin:8px 0;color:#a33">${String(e?.message||e)}</p><button class="b" onclick="render(1)">إعادة المحاولة</button></div>`} $('mn').innerHTML=tab==='dash'?content:`<section class="section-page"><div class="section-head"><div class="section-mark">${IC[tab]}</div><div><small>SHEIN AL-NEEL · إدارة المحل</small><h2>${TABS[tab]}</h2><p>كل بياناتك مرتبة بنفس هوية وتصميم النظام</p></div><span class="section-chip">شي آن النيل</span></div><div class="section-content">${content}</div></section>`;if(tab==='dash')dashFit();if(a){const m=$('mn');m.classList.remove('an');void m.offsetWidth;m.classList.add('an')}}
 function moreM(){om(`<h3>المزيد</h3><div class="g" style="grid-template-columns:1fr 1fr">${['exp','rep','log'].map(k=>`<button class="b s" style="padding:18px;font-size:15px" onclick="tab='${k}';cm();render(1);scrollTo(0,0)"><span style="font-size:26px">${IC[k]}</span><br>${TABS[k]}</button>`).join('')}</div>`)}
 const card=(l,v,i,c)=>`<div class="st"><div class="ic ${c}">${i}</div><div><small>${l}</small><b>${v}</b></div></div>`;
 function totals(sales,payments,expenses,debts){const rev=sum(sales,'total_price'),cogs=sum(sales,'total_cost'),cash=sum(sales.filter(s=>s.sale_type=='cash'),'total_price'),exp=sum(expenses,'amount'),rec=sum(sales,'paid')+sum(payments,'amount');
