@@ -1,0 +1,20 @@
+{
+  "name": "شي آن النيل",
+  "short_name": "شي آن النيل",
+  "description": "إدارة مبيعات وديون وجرد محل شي آن النيل",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#e9eddf",
+  "theme_color": "#53652b",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
