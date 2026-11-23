@@ -92,7 +92,7 @@ jobs:
               }
           '''
           if 'signingConfigs {' not in s:
-              s = re.sub(r'\n(\s*)buildTypes\s*\\{', '\n' + signing + '\n\1buildTypes {', s, count=1)
+              s = re.sub(r'\n(\s*)buildTypes\s*\{', lambda m: '\n' + signing + '\n' + m.group(1) + 'buildTypes {', s, count=1)
           s = re.sub(r'(release\s*\\{)', r'\1\n            signingConfig signingConfigs.release', s, count=1)
           p.write_text(s)
           PY
