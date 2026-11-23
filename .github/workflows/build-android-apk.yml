@@ -58,6 +58,7 @@ jobs:
           npx cap sync android
           mkdir -p assets
           curl -L --fail --retry 3 'https://i.pinimg.com/736x/0a/44/0a/0a440aff794433c1f9074f6aa301c7dd.jpg' -o assets/icon.png
+          sudo apt-get install -y imagemagick
           convert assets/icon.png -resize 1024x1024! assets/logo.png
           npx capacitor-assets generate --android --assetPath assets --iconBackgroundColor '#a8b58a' --splashBackgroundColor '#a8b58a'
 
