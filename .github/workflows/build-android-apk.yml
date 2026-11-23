@@ -1,0 +1,72 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'icon.svg'
+      - '.github/workflows/build-android-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Prepare Capacitor project
+        run: |
+          npm init -y
+          npm install @capacitor/core@7 @capacitor/android@7 @capacitor/cli@7 @supabase/supabase-js@2.45.4
+          mkdir -p www/vendor
+          cp index.html www/index.html
+          cp manifest.webmanifest sw.js icon.svg www/
+          cp node_modules/@supabase/supabase-js/dist/umd/supabase.js www/vendor/supabase.min.js
+          sed -i 's#https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js#./vendor/supabase.min.js#' www/index.html
+          npx cap init "شي آن النيل" "com.sheinalneel.shop" --web-dir=www
+          npx cap add android
+          npx cap sync android
+
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shein-al-neel-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
+      - name: Publish APK to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-build-${{ github.run_number }}
+          name: شي آن النيل APK - Build ${{ github.run_number }}
+          files: android/app/build/outputs/apk/debug/app-debug.apk
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
