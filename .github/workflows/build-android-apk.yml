@@ -79,8 +79,8 @@ jobs:
           import re
           p = Path("android/app/build.gradle")
           s = p.read_text()
-          s = re.sub(r'versionCode\\s+\\d+', 'versionCode ' + __import__('os').environ['BUILD_NUMBER'], s, count=1)
-          s = re.sub(r'versionName\\s+"[^"]+"', 'versionName "1.0.' + __import__('os').environ['BUILD_NUMBER'] + '"', s, count=1)
+          s = re.sub(r'versionCode\s+\d+', 'versionCode ' + __import__('os').environ['BUILD_NUMBER'], s, count=1)
+          s = re.sub(r'versionName\s+"[^"]+"', 'versionName "1.0.' + __import__('os').environ['BUILD_NUMBER'] + '"', s, count=1)
           signing = '''
               signingConfigs {
                   release {
@@ -92,8 +92,8 @@ jobs:
               }
           '''
           if 'signingConfigs {' not in s:
-              s = re.sub(r'\\n(\\s*)buildTypes\\s*\\{', '\\n' + signing + '\\n\\1buildTypes {', s, count=1)
-          s = re.sub(r'(release\\s*\\{)', r'\\1\\n            signingConfig signingConfigs.release', s, count=1)
+              s = re.sub(r'\n(\s*)buildTypes\s*\\{', '\n' + signing + '\n\1buildTypes {', s, count=1)
+          s = re.sub(r'(release\s*\\{)', r'\1\n            signingConfig signingConfigs.release', s, count=1)
           p.write_text(s)
           PY
           cd android
