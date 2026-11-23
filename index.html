@@ -167,6 +167,28 @@ body,.ambient-bg,.ambient-bg:before{animation:none!important}
 header{background:rgba(250,252,245,.97)}
 #md>div{background:linear-gradient(145deg,#fff,#f4f8e8)}
 @media(max-width:800px){aside{background:rgba(250,252,245,.98)}}
+
+/* === v11: laptop and desktop layout safeguards === */
+main{width:100%;min-width:0}
+.g,.cols,.kp,.dg,.qa,.g4{min-width:0}
+.g>*,.cols>*,.kp>*,.dg>*,.qa>*,.g4>*{min-width:0;max-width:100%}
+.g,.cols,.kp,.dg,.qa,.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.st,.cc,.dh,.dhero,.section-head,.tb,.cch{min-width:0}
+.st>*,.cc-main,.dh>*,.dhero>*,.section-head>*,.tb>*{min-width:0}
+.st b,.hero b,.kc b,.bx b,.kv b,.section-head h2{overflow-wrap:anywhere;word-break:break-word}
+.sc{max-width:100%;overflow-x:auto}
+table{max-width:100%}
+.doc.pdf{width:min(780px,100%);max-width:100%}
+.ac .b{min-width:0;overflow-wrap:anywhere}
+@media(min-width:801px) and (max-width:1100px){
+ aside{width:210px;padding-inline:9px}
+ main{padding:18px 16px 40px}
+ .kp{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .qa{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cols,.dg{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+ header{gap:10px;flex-wrap:wrap}
+}
 </style></head><body>
 <div class="ambient-bg" aria-hidden="true"></div>
 <div id="app" style="display:none"><aside><div class="lg"><b>SHEIN AL-NEEL</b><small>شي آن النيل</small></div><nav id="nv"></nav></aside><div class="mw"><header><h1 id="ttl"></h1><span id="st">●</span><button class="ib" onclick="notifM()" aria-label="الإشعارات">🔔</button><button class="ib" onclick="setM()" aria-label="الإعدادات">⚙️</button><span id="appVersion" aria-label="إصدار التطبيق">v1</span></header><main id="mn"></main></div></div><div id="md" onclick="if(event.target==this)cm()"><div id="mb"></div></div><div id="tt"></div>
