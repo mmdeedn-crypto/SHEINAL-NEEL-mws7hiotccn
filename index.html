@@ -244,7 +244,7 @@ const $=i=>document.getElementById(i),esc=s=>String(s??'').replace(/[&<>"]/g,c=>
 const _nf=new Intl.NumberFormat('en-US'),f=n=>_nf.format(Number(n)||0)+' د.ع',num=v=>parseInt(String(v).replace(/\D/g,''))||0;
 const _dtF=new Intl.DateTimeFormat('ar-IQ',{timeZone:'Asia/Baghdad',dateStyle:'short',timeStyle:'short'}),_dayF=new Intl.DateTimeFormat('sv',{timeZone:'Asia/Baghdad'}),_dtC=new Map(),_dayC=new Map();const dt=s=>{if(typeof s!=='string')return _dtF.format(new Date(s));let r=_dtC.get(s);if(r===undefined){r=_dtF.format(new Date(s));_dtC.set(s,r)}return r};
 const ym=s=>baghdadDay(s).slice(0,7);
-let _cA=null,_cN=-1;const sum=(a,k)=>a.reduce((x,y)=>x+Number(y[k]||0),0),_cM=new Map(),cust=id=>{const a=S.customers;if(_cA!==a||_cN!==a.length){_cA=a;_cN=a.length;_cM=new Map(a.map(c=>[String(c.id),c.name]))}return _cM.get(String(id))||'—'};
+let _cA=null,_cN=-1,_cM=new Map();const sum=(a,k)=>a.reduce((x,y)=>x+Number(y[k]||0),0),cust=id=>{const a=S.customers;if(_cA!==a||_cN!==a.length){_cA=a;_cN=a.length;_cM=new Map(a.map(c=>[String(c.id),c.name]))}return _cM.get(String(id))||'—'};
 function toast(m){const t=$('tt');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2800)}
 const cm=()=>$('md').style.display='none';function om(h){$('mb').innerHTML=h.replace(/<h3([^>]*)>/,'<h3$1><button type="button" class="modal-exit" onclick="cm()" aria-label="إغلاق">×</button>');$('md').style.display='flex'}
 const mon=e=>e.value=num(e.value)?num(e.value).toLocaleString('en-US'):'';
