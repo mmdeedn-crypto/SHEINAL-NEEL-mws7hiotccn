@@ -7,7 +7,8 @@ on:
       - 'index.html'
       - 'manifest.webmanifest'
       - 'sw.js'
-      - 'icon.svg'\n      - 'assets/**'
+      - 'icon.svg'
+      - 'assets/**'
       - '.github/workflows/build-android-apk.yml'
   workflow_dispatch:
 
@@ -54,7 +55,11 @@ jobs:
           sed -i 's#https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js#./vendor/supabase.min.js#' www/index.html
           npx cap init "شي آن النيل" "com.sheinalneel.shop" --web-dir=www
           npx cap add android
-          npx cap sync android\n          mkdir -p assets\n          curl -L --fail --retry 3 'https://i.pinimg.com/736x/0a/44/0a/0a440aff794433c1f9074f6aa301c7dd.jpg' -o assets/icon.png\n          npx capacitor-assets generate --android --assetPath assets --iconBackgroundColor '#a8b58a' --splashBackgroundColor '#a8b58a'
+          npx cap sync android
+          mkdir -p assets
+          curl -L --fail --retry 3 'https://i.pinimg.com/736x/0a/44/0a/0a440aff794433c1f9074f6aa301c7dd.jpg' -o assets/icon.png
+          convert assets/icon.png -resize 1024x1024! assets/logo.png
+          npx capacitor-assets generate --android --assetPath assets --iconBackgroundColor '#a8b58a' --splashBackgroundColor '#a8b58a'
 
       - name: Build APK
         run: |
