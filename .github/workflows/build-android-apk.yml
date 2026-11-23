@@ -53,6 +53,7 @@ jobs:
           cp manifest.webmanifest sw.js icon.svg www/
           cp node_modules/@supabase/supabase-js/dist/umd/supabase.js www/vendor/supabase.min.js
           sed -i 's#https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js#./vendor/supabase.min.js#' www/index.html
+          sed -i 's/window.APP_BUILD=0/window.APP_BUILD=${{ github.run_number }}/' www/index.html
           npx cap init "شي آن النيل" "com.sheinalneel.shop" --web-dir=www
           npx cap add android
           npx cap sync android
@@ -62,17 +63,51 @@ jobs:
           convert assets/icon.png -resize 1024x1024! assets/logo.png
           npx capacitor-assets generate --android --assetPath assets --iconBackgroundColor '#a8b58a' --splashBackgroundColor '#a8b58a'
 
-      - name: Build APK
+      - name: Configure permanent APK signing
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          BUILD_NUMBER: ${{ github.run_number }}
         run: |
+          test -n "$ANDROID_KEYSTORE_BASE64"
+          mkdir -p android/app
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/release-key.jks
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path("android/app/build.gradle")
+          s = p.read_text()
+          s = re.sub(r'versionCode\\s+\\d+', 'versionCode ' + __import__('os').environ['BUILD_NUMBER'], s, count=1)
+          s = re.sub(r'versionName\\s+"[^"]+"', 'versionName "1.0.' + __import__('os').environ['BUILD_NUMBER'] + '"', s, count=1)
+          signing = '''
+              signingConfigs {
+                  release {
+                      storeFile file("release-key.jks")
+                      storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                      keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                      keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+                  }
+              }
+          '''
+          if 'signingConfigs {' not in s:
+              s = re.sub(r'\\n(\\s*)buildTypes\\s*\\{', '\\n' + signing + '\\n\\1buildTypes {', s, count=1)
+          s = re.sub(r'(release\\s*\\{)', r'\\1\\n            signingConfig signingConfigs.release', s, count=1)
+          p.write_text(s)
+          PY
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease
+          cd ..
+          cp android/app/build/outputs/apk/release/app-release.apk app-release.apk
+          rm -f android/app/release-key.jks
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: shein-al-neel-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: app-release.apk
           retention-days: 30
 
       - name: Publish APK to GitHub Releases
@@ -80,7 +115,7 @@ jobs:
         with:
           tag_name: apk-build-${{ github.run_number }}
           name: شي آن النيل APK - Build ${{ github.run_number }}
-          files: android/app/build/outputs/apk/debug/app-debug.apk
+          files: app-release.apk
           generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
