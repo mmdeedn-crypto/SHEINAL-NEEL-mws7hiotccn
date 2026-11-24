@@ -30,11 +30,25 @@
     return html;
   }
 
-  function apply(html, version) {
-    const prepared = prepare(html, version);
-    document.open();
-    document.write(prepared);
-    document.close();
+  async function apply(html, version) {
+    if (!navigator.serviceWorker || !('caches' in window)) {
+      alert('ميزة التحديث تحتاج تفعيل التخزين الآمن. أغلق التطبيق وافتحه ثم حاول مجدداً.');
+      return;
+    }
+    try {
+      await navigator.serviceWorker.ready;
+      const url = new URL(location.href);
+      url.hash = '';
+      const cache = await caches.open('shein-neel-ota-content-v1');
+      await cache.put(new Request(url.toString()), new Response(prepare(html, version), {
+        headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' }
+      }));
+      if (!writeCache(html)) throw new Error('تعذر حفظ نسخة التحديث');
+      location.reload();
+    } catch (error) {
+      console.error('OTA apply failed:', error);
+      alert('تعذر تطبيق التحديث حالياً. بياناتك لم تتغير، حاول مرة أخرى بعد قليل.');
+    }
   }
 
   function showUpdate(html, version) {
@@ -52,7 +66,6 @@
       button.style.cssText = 'border:0;border-radius:10px;padding:9px 13px;background:#dce8bd;color:#26351c;font-weight:800;font:inherit;white-space:nowrap';
       button.addEventListener('click', () => {
         if (!confirm('سيتم تحديث واجهة التطبيق وإعادة تحميلها. بيانات المتجر والعمليات المحفوظة محلياً تبقى كما هي. هل تريد التحديث الآن؟')) return;
-        if (!writeCache(html)) { alert('مساحة التخزين غير كافية لحفظ التحديث.'); return; }
         apply(html, version);
       });
       bar.append(label, button);
@@ -77,7 +90,7 @@
       const latestVersion = await digest(html);
       const cached = readCache();
       if (!cached) {
-        if (writeCache(html) && !document.querySelector('meta[name="' + META_NAME + '"]')) apply(html, latestVersion);
+        writeCache(html);
         return;
       }
       const cachedVersion = await digest(cached);
