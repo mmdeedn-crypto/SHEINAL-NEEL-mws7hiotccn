@@ -97,6 +97,7 @@
   // Restore the last verified web version before the app's own scripts run.
   const applied = document.querySelector('meta[name="' + META_NAME + '"]');
   if (applied) window.SHEIN_OTA_VERSION = (applied.content || '').slice(0, 8);
+  if (applied) document.addEventListener('DOMContentLoaded', () => { const el = document.getElementById('uiVersion'); if (el) el.textContent = 'واجهة ' + window.SHEIN_OTA_VERSION; }, { once: true });
   const cachedAtLaunch = readCache();
   if (!applied && cachedAtLaunch) {
     digest(cachedAtLaunch).then(version => apply(cachedAtLaunch, version));
