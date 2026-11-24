@@ -208,6 +208,22 @@ table{max-width:100%}
  .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
  header{gap:10px;flex-wrap:wrap}
 }
+
+/* In-app APK update notice */
+#appUpdateNotice{position:fixed;z-index:120;top:12px;left:12px;right:12px;max-width:620px;margin:auto;padding:14px 16px;border:1px solid #cbd7a9;border-radius:17px;background:rgba(250,253,242,.97);box-shadow:0 16px 44px #26351d35;backdrop-filter:blur(16px);display:none;color:#26301a}
+#appUpdateNotice.show{display:block;animation:pop .25s ease}
+#appUpdateNotice .aup-row{display:flex;align-items:center;gap:12px}
+#appUpdateNotice .aup-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:#e6edcf;font-size:22px;flex-shrink:0}
+#appUpdateNotice .aup-copy{flex:1;min-width:0}
+#appUpdateNotice .aup-copy b{display:block;font-size:14px}
+#appUpdateNotice .aup-copy small{display:block;color:#68735c;font-size:12px;margin-top:3px}
+#appUpdateNotice .aup-actions{display:flex;gap:7px;margin-top:11px}
+#appUpdateNotice button{border:0;border-radius:10px;padding:9px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+#appUpdateNotice .aup-install{background:#53652b;color:white;flex:1}
+#appUpdateNotice .aup-later{background:#e9eedc;color:#53652b}
+#appUpdateNotice .aup-progress{height:5px;background:#e5e9d9;border-radius:9px;overflow:hidden;margin-top:10px;display:none}
+#appUpdateNotice .aup-progress i{display:block;height:100%;width:0;background:#53652b;transition:width .2s}
+
 </style></head><body>
 <div class="ambient-bg" aria-hidden="true"></div>
 <div id="app" style="display:none"><aside><div class="lg"><b>SHEIN AL-NEEL</b><small>شي آن النيل</small></div><nav id="nv"></nav></aside><div class="mw"><header><h1 id="ttl"></h1><span id="st">●</span><button class="ib" onclick="notifM()" aria-label="الإشعارات">🔔</button><button class="ib" onclick="setM()" aria-label="الإعدادات">⚙️</button><span id="appVersion" aria-label="إصدار التطبيق">v1</span></header><main id="mn"></main></div></div><div id="md" onclick="if(event.target==this)cm()"><div id="mb"></div></div><div id="tt"></div>
@@ -434,8 +450,65 @@ function dailySeries(m,limit){const[y,mo]=m.split('-').map(Number),dim=new Date(
 
 function mshift(d){const m=window.rm||ym(new Date());let[y,n]=m.split('-').map(Number);n+=d;if(n<1){n=12;y--}if(n>12){n=1;y++}const k=y+'-'+String(n).padStart(2,'0');if(k>ym(new Date()))return;window.rm=k;render()}
 function notifM(){om(`<h3>الإشعارات</h3>${S.notifications.slice(0,40).map(n=>`<div class="nt">${esc(n.message)}<small>${dt(n.created_at)}</small></div>`).join('')||'<p>لا توجد إشعارات</p>'}<button class="b s" onclick="cm()" style="margin-top:12px">إغلاق</button>`)}
-function setM(){om(`<h3>الإعدادات</h3><div class="c"><div class="nt">حالة الاتصال<small>${DEMO?'غير مربوط بقاعدة البيانات':(navigator.onLine?'متصل':'غير متصل')}</small></div><div class="nt">عدد الزبائن<small>${S.customers.length}</small></div><div class="nt">عدد عمليات البيع<small>${S.sales.length}</small></div><div class="nt">إصدار التطبيق<small>Build ${Number(window.APP_BUILD)||'—'}</small></div></div><div class="c" style="margin-top:12px"><b>تحديث التطبيق</b><p style="margin:7px 0;font-size:13px;color:var(--mu)">تحقق من وجود نسخة أحدث. عند توفرها سيفتح رابط التنزيل، وبعد تنزيل APK وافق على تثبيته.</p><button class="b" id="checkUpdateBtn" style="width:100%" onclick="checkAppUpdate(this)">التحقق من التحديثات</button></div><button class="b" onclick="cm();load()">تحديث البيانات</button><div class="c" style="margin-top:14px;border:1px solid #efb8bd;background:#fff6f6"><b style="color:#b42332">منطقة خطرة</b><p style="margin:7px 0;color:#7f3038;font-size:13px">تصفير جميع بيانات المتجر على كل الأجهزة. سيُحذف الزبائن والديون والدفعات والمبيعات والجرد والمصاريف والإشعارات وسجل النشاط. لن تُحذف إعدادات Supabase أو حسابات الدخول أو إصدار التطبيق.</p><button class="b" style="width:100%;background:#b42332" onclick="if(confirm('تحذير نهائي: سيتم حذف جميع بيانات المتجر من كل الأجهزة. هل تريد المتابعة؟'))resetConfirmM()">تصفير جميع بيانات الموقع</button></div><button class="b s" onclick="cm()" style="margin-top:10px">إغلاق</button>`)}
-async function checkAppUpdate(btn){const b=btn||$('checkUpdateBtn');if(!navigator.onLine)return toast('اتصل بالإنترنت أولاً للتحقق من التحديثات');if(b){b.disabled=true;b.textContent='جارٍ التحقق...'}try{const res=await fetch('https://api.github.com/repos/mmdeedn-crypto/SHEINAL-NEEL-mws7hiotccn/releases/latest',{headers:{Accept:'application/vnd.github+json'}});if(!res.ok)throw new Error('تعذر الوصول إلى معلومات التحديث');const rel=await res.json(),m=String(rel.tag_name||'').match(/^apk-build-(\\d+)$/),asset=(rel.assets||[]).find(a=>a.name==='app-release.apk');if(!m||!asset)throw new Error('لم يتم العثور على ملف APK موقّع في آخر إصدار');const latest=Number(m[1]),current=Number(window.APP_BUILD)||0;if(latest<=current){toast('تطبيقك محدث بالفعل — Build '+current);return}const size=(asset.size/1048576).toFixed(1);if(confirm('توجد نسخة جديدة من شي آن النيل\\nBuild '+latest+' — حجم '+size+' MB\\nسيتم فتح صفحة التنزيل. بعد تنزيل APK افتحه ووافق على التثبيت.'))window.open(rel.html_url,'_blank')}catch(e){toast(e.message||'فشل التحقق من التحديث')}finally{if(b){b.disabled=false;b.textContent='التحقق من التحديثات'}}}
+function setM(){om(`<h3>الإعدادات</h3><div class="c"><div class="nt">حالة الاتصال<small>${DEMO?'غير مربوط بقاعدة البيانات':(navigator.onLine?'متصل':'غير متصل')}</small></div><div class="nt">عدد الزبائن<small>${S.customers.length}</small></div><div class="nt">عدد عمليات البيع<small>${S.sales.length}</small></div><div class="nt">إصدار التطبيق<small>Build ${Number(window.APP_BUILD)||'—'}</small></div></div><div class="c" style="margin-top:12px"><b>تحديث التطبيق</b><p style="margin:7px 0;font-size:13px;color:var(--mu)">يتحقق من أحدث إصدار على GitHub. إذا توفر تحديث سيظهر إشعار هنا، ويمكنك تنزيله وتثبيته فوق النسخة الحالية.</p><button class="b" id="checkUpdateBtn" style="width:100%" onclick="checkAppUpdate(this)">التحقق من التحديثات</button></div><button class="b" onclick="cm();load()">تحديث البيانات</button><div class="c" style="margin-top:14px;border:1px solid #efb8bd;background:#fff6f6"><b style="color:#b42332">منطقة خطرة</b><p style="margin:7px 0;color:#7f3038;font-size:13px">تصفير جميع بيانات المتجر على كل الأجهزة. سيُحذف الزبائن والديون والدفعات والمبيعات والجرد والمصاريف والإشعارات وسجل النشاط. لن تُحذف إعدادات Supabase أو حسابات الدخول أو إصدار التطبيق.</p><button class="b" style="width:100%;background:#b42332" onclick="if(confirm('تحذير نهائي: سيتم حذف جميع بيانات المتجر من كل الأجهزة. هل تريد المتابعة؟'))resetConfirmM()">تصفير جميع بيانات الموقع</button></div><button class="b s" onclick="cm()" style="margin-top:10px">إغلاق</button>`)}
+
+// فحص إصدار APK من GitHub وعرض إشعار داخل التطبيق
+const APP_RELEASES_API='https://api.github.com/repos/mmdeedn-crypto/SHEINAL-NEEL-mws7hiotccn/releases/latest';
+let pendingApkUpdate=null,updateCheckBusy=false;
+function isNativeApk(){return !!(window.Capacitor&&typeof window.Capacitor.isNativePlatform==='function'&&window.Capacitor.isNativePlatform())}
+function updateNotice(){
+ let el=$('appUpdateNotice');
+ if(!el){el=document.createElement('div');el.id='appUpdateNotice';document.body.appendChild(el)}
+ return el;
+}
+function showAppUpdateNotice(release,asset,build){
+ pendingApkUpdate={release,asset,build};
+ const el=updateNotice();
+ el.innerHTML='<div class="aup-row"><div class="aup-icon">⬆️</div><div class="aup-copy"><b>يتوفر تحديث جديد لشي آن النيل</b><small>الإصدار Build '+build+' — حجم '+(Number(asset.size||0)/1048576).toFixed(1)+' MB</small></div><button class="aup-later" onclick="dismissAppUpdate()">لاحقاً</button></div><div class="aup-actions"><button class="aup-install" id="installAppUpdateBtn" onclick="installAppUpdate()">تحديث الآن</button></div><div class="aup-progress" id="appUpdateProgress"><i id="appUpdateProgressBar"></i></div>';
+ el.classList.add('show');
+}
+function dismissAppUpdate(){const el=$('appUpdateNotice');if(el)el.classList.remove('show')}
+async function checkAppUpdate(btn,silent){
+ const b=btn||$('checkUpdateBtn');
+ if(!navigator.onLine){if(!silent)toast('اتصل بالإنترنت أولاً للتحقق من التحديثات');return}
+ if(updateCheckBusy)return;
+ updateCheckBusy=true;
+ if(b){b.disabled=true;b.textContent='جارٍ التحقق...'}
+ try{
+  const res=await fetch(APP_RELEASES_API,{headers:{Accept:'application/vnd.github+json'},cache:'no-store'});
+  if(!res.ok)throw new Error('تعذر الوصول إلى معلومات التحديث');
+  const rel=await res.json(),m=String(rel.tag_name||'').match(/^apk-build-(\d+)$/),asset=(rel.assets||[]).find(x=>x.name==='app-release.apk');
+  if(!m||!asset||!asset.browser_download_url)throw new Error('لم يتم العثور على ملف APK في آخر إصدار');
+  const latest=Number(m[1]),current=Number(window.APP_BUILD)||0;
+  if(latest<=current){if(!silent)toast('تطبيقك محدث بالفعل — Build '+current);return}
+  if(!isNativeApk()){if(!silent)toast('التحديث المباشر متاح من داخل تطبيق APK');return}
+  showAppUpdateNotice(rel,asset,latest);
+  if(!silent)toast('يتوفر تحديث جديد للتطبيق');
+ }catch(e){if(!silent)toast(e.message||'فشل التحقق من التحديث')}
+ finally{updateCheckBusy=false;if(b){b.disabled=false;b.textContent='التحقق من التحديثات'}}
+}
+async function installAppUpdate(){
+ if(!pendingApkUpdate)return;
+ const plugin=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.AppUpdater;
+ if(!plugin||typeof plugin.installUpdate!=='function')return toast('ميزة التحديث غير مفعّلة في هذه النسخة؛ ثبّت أحدث إصدار أولاً');
+ const b=$('installAppUpdateBtn'),p=$('appUpdateProgress'),bar=$('appUpdateProgressBar');
+ if(b){b.disabled=true;b.textContent='جارٍ تنزيل التحديث...'}
+ if(p)p.style.display='block';
+ try{
+  if(plugin.addListener)await plugin.addListener('updateProgress',ev=>{if(bar)bar.style.width=Math.max(0,Math.min(100,Number(ev.percent)||0))+'%'});
+  const result=await plugin.installUpdate({url:pendingApkUpdate.asset.browser_download_url});
+  if(result&&result.needsPermission){toast('فعّل السماح بتثبيت التطبيقات لهذا التطبيق، ثم ارجع واضغط تحديث الآن');if(b){b.disabled=false;b.textContent='إعادة المحاولة'}return}
+  if(result&&result.started){if(b)b.textContent='تم فتح مُثبّت أندرويد';toast('اكتمل التنزيل. وافق على التثبيت من نافذة أندرويد')}
+ }catch(e){toast(e.message||'تعذر تنزيل التحديث');if(b){b.disabled=false;b.textContent='إعادة المحاولة'}}
+}
+function startAutomaticUpdateChecks(){
+ if(!isNativeApk())return;
+ const run=()=>{if(document.visibilityState==='visible')checkAppUpdate(null,true)};
+ setTimeout(run,9000);
+ setInterval(run,30*60*1000);
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')setTimeout(run,1200)});
+ window.addEventListener('online',()=>setTimeout(run,1500));
+}
 function resetConfirmM(){om(`<h3>تأكيد تصفير جميع البيانات</h3><p style="color:#a12632;font-weight:700">هذا الإجراء نهائي ولا يمكن التراجع عنه.</p><label>رمز الحذف</label><input id="resetToken" type="password" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="••••••" autocomplete="off" dir="ltr"><button class="b" id="resetNow" style="width:100%;background:#b42332" onclick="executeShopReset()">تأكيد التصفير النهائي</button><button class="b s" style="width:100%;margin-top:8px" onclick="setM()">إلغاء والعودة</button>`)}
 async function executeShopReset(){const token=$('resetToken').value.trim();if(!/^\d{6}$/.test(token))return toast('أدخل رمز الحذف المكوّن من 6 أرقام');const b=$('resetNow');b.disabled=true;b.textContent='جارٍ تصفير البيانات...';try{const res=await fetch(URL_+'/functions/v1/reset-shop-data',{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'x-reset-token':token},body:JSON.stringify({})});const data=await res.json().catch(()=>({}));if(!res.ok||!data.ok)throw new Error(data.error||'تعذر تصفير البيانات');cm();toast('تم تصفير بيانات المتجر بنجاح');await load()}catch(e){b.disabled=false;b.textContent='تأكيد التصفير النهائي';toast(e.message||'تعذر تنفيذ التصفير')}}
 function outM(){toast('النظام يعمل بدون حسابات، لا يوجد تسجيل دخول')}
@@ -461,5 +534,6 @@ function dashView(){const now=new Date(),mk=ym(now),sel=window.rm||mk,d0=daySum(
 
 
 start();
+startAutomaticUpdateChecks();
 </script><!-- automatic version workflow authentication fix test -->
 </body></html>
