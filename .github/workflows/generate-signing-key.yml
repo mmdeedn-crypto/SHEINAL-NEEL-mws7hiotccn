@@ -1,0 +1,33 @@
+name: Generate Android Signing Key
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate permanent signing keystore
+        env:
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          set -e
+          test -n "$STORE_PASSWORD" || { echo "ANDROID_KEYSTORE_PASSWORD is missing"; exit 1; }
+          keytool -genkeypair -v \
+            -keystore release-key.jks \
+            -storetype JKS \
+            -storepass "$STORE_PASSWORD" \
+            -keypass "$STORE_PASSWORD" \
+            -alias sheinalneel \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Shein Al Neel, OU=Android, O=Shein Al Neel, L=Hillah, ST=Babil, C=IQ"
+          base64 -w 0 release-key.jks > ANDROID_KEYSTORE_BASE64.txt
+      - name: Upload encoded keystore temporarily
+        uses: actions/upload-artifact@v4
+        with:
+          name: temporary-signing-key-base64
+          path: ANDROID_KEYSTORE_BASE64.txt
+          retention-days: 1
