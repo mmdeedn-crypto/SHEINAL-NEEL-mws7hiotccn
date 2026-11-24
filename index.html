@@ -172,7 +172,7 @@ aside{background:linear-gradient(160deg,rgba(48,62,27,.96),rgba(86,105,46,.91),r
 
 @media(max-width:800px){
 nav{grid-template-columns:repeat(4,1fr)!important}
-header{padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top,0px))}header h1{font-size:17px}#st{font-size:12px}#appVersion{display:none}
+header{padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top,0px))}header h1{font-size:17px}#st{font-size:12px}#appVersion{display:inline-flex;padding:3px 7px;font-size:10px;margin-inline-start:4px}
 input,select,textarea{font-size:16px}
 .tb{padding:10px}.tb input,.tb select{min-width:100%}.tb>.b{flex:1}
 .section-head p{display:none}.section-head{margin-bottom:12px}
@@ -212,7 +212,7 @@ table{max-width:100%}
 
 </style></head><body>
 <div class="ambient-bg" aria-hidden="true"></div>
-<div id="app" style="display:none"><aside><div class="lg"><b>SHEIN AL-NEEL</b><small>شي آن النيل</small></div><nav id="nv"></nav></aside><div class="mw"><header><h1 id="ttl"></h1><span id="st">●</span><button class="ib" onclick="notifM()" aria-label="الإشعارات">🔔</button><button class="ib" onclick="setM()" aria-label="الإعدادات">⚙️</button><span id="appVersion" aria-label="إصدار التطبيق">v1</span></header><main id="mn"></main></div></div><div id="md" onclick="if(event.target==this)cm()"><div id="mb"></div></div><div id="tt"></div>
+<div id="app" style="display:none"><aside><div class="lg"><b>SHEIN AL-NEEL</b><small>شي آن النيل</small></div><nav id="nv"></nav></aside><div class="mw"><header><h1 id="ttl"></h1><span id="st">●</span><span id="appVersion" aria-label="إصدار التطبيق">v1</span><button class="ib" onclick="notifM()" aria-label="الإشعارات">🔔</button><button class="ib" onclick="setM()" aria-label="الإعدادات">⚙️</button></header><main id="mn"></main></div></div><div id="md" onclick="if(event.target==this)cm()"><div id="mb"></div></div><div id="tt"></div>
 <script type="text/plain" id="sqlsrc">
 -- SHEIN AL-NEEL | شي آن النيل — قاعدة بيانات مفتوحة بدون حسابات (آمن لإعادة التشغيل، لا يحذف البيانات)
 create table if not exists customers(id uuid primary key default gen_random_uuid(), name text not null, phone text, address text, notes text, created_at timestamptz default now());
