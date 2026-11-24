@@ -31,20 +31,12 @@
   }
 
   async function apply(html, version) {
-    if (!navigator.serviceWorker || !('caches' in window)) {
-      alert('ميزة التحديث تحتاج تفعيل التخزين الآمن. أغلق التطبيق وافتحه ثم حاول مجدداً.');
-      return;
-    }
     try {
-      await navigator.serviceWorker.ready;
-      const url = new URL(location.href);
-      url.hash = '';
-      const cache = await caches.open('shein-neel-ota-content-v1');
-      await cache.put(new Request(url.toString()), new Response(prepare(html, version), {
-        headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' }
-      }));
+      // Keep the same WebView origin so localStorage and IndexedDB stay intact.
       if (!writeCache(html)) throw new Error('تعذر حفظ نسخة التحديث');
-      location.reload();
+      document.open();
+      document.write(prepare(html, version));
+      document.close();
     } catch (error) {
       console.error('OTA apply failed:', error);
       alert('تعذر تطبيق التحديث حالياً. بياناتك لم تتغير، حاول مرة أخرى بعد قليل.');
@@ -104,6 +96,7 @@
 
   // Restore the last verified web version before the app's own scripts run.
   const applied = document.querySelector('meta[name="' + META_NAME + '"]');
+  if (applied) window.SHEIN_OTA_VERSION = (applied.content || '').slice(0, 8);
   const cachedAtLaunch = readCache();
   if (!applied && cachedAtLaunch) {
     digest(cachedAtLaunch).then(version => apply(cachedAtLaunch, version));
