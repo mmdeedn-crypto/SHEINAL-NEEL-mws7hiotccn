@@ -118,6 +118,26 @@ aside{background:linear-gradient(160deg,rgba(48,62,27,.96),rgba(86,105,46,.91),r
 .op{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}.op:last-child{border:0}.op>i{width:10px;height:10px;border-radius:50%;flex-shrink:0}.op>div{flex:1;min-width:0;font-size:13.5px}.op small{display:block;color:var(--mu)}.op>b{white-space:nowrap;font-size:13.5px}
 .lk{border:0;background:none;color:var(--pr);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
 .ib{border:1px solid var(--bd);background:#fff;border-radius:10px;width:36px;height:36px;font-size:17px;cursor:pointer;flex-shrink:0}header{gap:8px}header h1{flex:1}
+/* بطاقات الزبائن المجمعة في قسم الديون */
+.customer-group{display:block;border:1px solid rgba(111,129,75,.25);border-radius:18px;background:rgba(255,255,255,.82);box-shadow:0 10px 28px rgba(56,73,34,.08);overflow:hidden;margin:0 0 12px;transition:box-shadow .2s,transform .2s}
+.customer-group[open]{box-shadow:0 14px 34px rgba(56,73,34,.13);border-color:rgba(83,101,43,.42)}
+.customer-group>summary{list-style:none;cursor:pointer;padding:15px;outline:none}
+.customer-group>summary::-webkit-details-marker{display:none}
+.customer-group-head{display:block!important}
+.customer-group-top{display:flex;align-items:center;gap:11px}
+.customer-group-name{flex:1;min-width:0}
+.customer-group-name b{display:block;font-size:15px;color:var(--tx);overflow-wrap:anywhere}
+.customer-group-name small{display:block;color:var(--mu);font-size:12px;margin-top:3px}
+.customer-group-arrow{width:30px;height:30px;border-radius:10px;background:#edf1df;color:var(--pr);display:grid;place-items:center;font-size:20px;transition:transform .2s}
+.customer-group[open] .customer-group-arrow{transform:rotate(180deg)}
+.customer-group-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:13px}
+.customer-group-stats>div{background:#f1f4e6;border-radius:11px;padding:9px 7px;min-width:0}
+.customer-group-stats small{display:block;color:var(--mu);font-size:11px}
+.customer-group-stats b{display:block;font-size:13px;margin-top:3px;overflow-wrap:anywhere}
+.customer-group-hint{font-size:11px;color:var(--pr);margin-top:10px;text-align:center}
+.customer-group-details{padding:0 12px 12px;border-top:1px solid var(--bd);background:rgba(241,244,230,.42)}
+.customer-group-details .dc{margin-top:12px}
+
 /* قسم الديون */
 .dd .dh{margin-bottom:8px;gap:8px}.dd a{color:var(--pr);text-decoration:none}
 .kv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.kv div{background:#f1f4e4;border-radius:10px;padding:8px 10px;min-width:0}.kv small{display:block;font-size:11.5px}.kv b{font-size:13px;overflow-wrap:anywhere}
@@ -348,8 +368,18 @@ rep(){const m=window.rm||ym(new Date()),r=R(m),p=R(prev(m)),mm=x=>ym(x.created_a
 log(){return`<div class="sc"><table><tr><th>التاريخ</th><th>العملية</th><th>الزبون</th><th>المبلغ</th><th>المستخدم</th></tr>${S.activity_logs.slice(0,LL).map(l=>`<tr><td>${dt(l.created_at)}</td><td>${esc(l.action)}</td><td>${esc(l.customer_name)}</td><td>${l.amount?f(l.amount):''}</td><td>${esc(l.user_name)}</td></tr>`).join('')}</table></div>${S.activity_logs.length>LL?`<button class="b s np" style="margin-top:10px" onclick="LL+=100;render()">عرض المزيد (${S.activity_logs.length-LL})</button>`:''}`}};
 let df='',dq='',ds='rem';
 const rmn=d=>Number(d.total)-Number(d.paid);
-function dl(){const q=dq.trim();let L=S.debts.filter(d=>(!df||status(d)[0]==df)&&(!q||(cust(d.customer_id)+(S.customers.find(c=>c.id==d.customer_id)?.phone||'')+(d.description||'')+(d.seller||'')+S.sale_items.filter(i=>i.sale_id==d.sale_id).map(i=>i.name).join(' ')).includes(q)));
- L.sort(ds=='old'?(a,b)=>new Date(a.created_at)-new Date(b.created_at):ds=='due'?(a,b)=>(a.due_date||'9')<(b.due_date||'9')?-1:1:(a,b)=>rmn(b)-rmn(a));return L.map(debtCard).join('')||'<div class="c">لا توجد ديون مطابقة</div>'}
+function dl(){
+ const q=dq.trim();
+ let L=S.debts.filter(d=>(!df||status(d)[0]==df)&&(!q||(cust(d.customer_id)+(S.customers.find(c=>c.id==d.customer_id)?.phone||'')+(d.description||'')+(d.seller||'')+S.sale_items.filter(i=>i.sale_id==d.sale_id).map(i=>i.name).join(' ')).includes(q)));
+ const groups=new Map();
+ L.forEach(d=>{const id=d.customer_id||'unknown';if(!groups.has(id))groups.set(id,[]);groups.get(id).push(d)});
+ const G=[...groups.entries()].map(([id,debts])=>({id,debts,remaining:debts.reduce((a,d)=>a+rmn(d),0),total:sum(debts,'total'),paid:sum(debts,'paid'),latest:Math.max(...debts.map(d=>new Date(d.created_at).getTime()||0)),due:debts.reduce((v,d)=>!v||((d.due_date||'9999')<v)?(d.due_date||'9999'):v,'9999')}));
+ G.sort(ds=='old'?(a,b)=>a.latest-b.latest:ds=='due'?(a,b)=>a.due.localeCompare(b.due):(a,b)=>b.remaining-a.remaining);
+ return G.map(g=>{
+  const c=S.customers.find(x=>x.id==g.id)||{},name=c.name||'زبون غير معروف',phone=c.phone||'لا يوجد هاتف';
+  return `<details class="customer-group"><summary class="customer-group-head"><div class="customer-group-top"><div class="av">${esc(name[0]||'ز')}</div><div class="customer-group-name"><b>${esc(name)}</b><small>${c.phone?`📞 ${esc(phone)}`:'لا يوجد هاتف'} · ${g.debts.length} دين</small></div><span class="customer-group-arrow">⌄</span></div><div class="customer-group-stats"><div><small>إجمالي الديون</small><b>${f(g.total)}</b></div><div><small>المسدد</small><b class="ok">${f(g.paid)}</b></div><div><small>المتبقي</small><b class="${g.remaining?'bad':'ok'}">${f(g.remaining)}</b></div></div><div class="customer-group-hint">اضغط لعرض تفاصيل الديون والدفعات</div></summary><div class="customer-group-details">${g.debts.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).map(debtCard).join('')}</div></details>`;
+ }).join('')||'<div class="c">لا توجد ديون مطابقة</div>';
+}
 function debtCard(d){const c=S.customers.find(x=>x.id==d.customer_id)||{},s=status(d),r=rmn(d),pc=Math.round(d.paid/d.total*100),its=S.sale_items.filter(i=>i.sale_id==d.sale_id),
  pays=S.payments.filter(p=>p.debt_id==d.id).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)),atSale=Math.max(0,Number(d.paid)-sum(pays,'amount')),custRem=S.debts.filter(x=>x.customer_id==d.customer_id).reduce((a,x)=>a+rmn(x),0),
  days=d.due_date?Math.round((new Date(d.due_date)-new Date(new Date().toISOString().slice(0,10)))/864e5):null,
