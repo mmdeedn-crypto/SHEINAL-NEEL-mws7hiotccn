@@ -144,7 +144,7 @@ aside{background:linear-gradient(160deg,rgba(48,62,27,.96),rgba(86,105,46,.91),r
 .dd details{border:1px solid var(--bd);border-radius:12px;padding:8px 12px;margin:8px 0;background:#ffffff90}.dd summary{cursor:pointer;font-weight:700;color:var(--pr)}.dd details h4{margin:12px 0 4px;font-size:13px;color:var(--pr)}
 .pl{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px dashed var(--bd);font-size:13px}.pl small{display:block;color:var(--mu)}
 .ac{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.ac .b{flex:1;min-width:108px;padding:9px 8px;font-size:13px}
-#appVersion{display:inline-flex;align-items:center;justify-content:center;padding:4px 10px;border:1px solid #dfe3cf;border-radius:999px;background:#ffffffb8;color:#5f6f2c;font-size:11px;font-weight:700;white-space:nowrap;direction:ltr;box-shadow:0 2px 8px #26301a12}
+#appVersion,#uiVersion{display:inline-flex;align-items:center;justify-content:center;padding:4px 9px;border:1px solid #dfe3cf;border-radius:999px;background:#ffffffb8;color:#5f6f2c;font-size:11px;font-weight:700;white-space:nowrap;direction:ltr;box-shadow:0 2px 8px #26301a12}#uiVersion{color:#52612b;background:#eef2df}
 
 /* Unified section design — matches the SHEIN AL-NEEL home palette */
 .section-page{max-width:1180px;margin:0 auto;padding:2px 0 24px}
@@ -212,7 +212,7 @@ table{max-width:100%}
 
 </style></head><body>
 <div class="ambient-bg" aria-hidden="true"></div>
-<div id="app" style="display:none"><aside><div class="lg"><b>SHEIN AL-NEEL</b><small>شي آن النيل</small></div><nav id="nv"></nav></aside><div class="mw"><header><h1 id="ttl"></h1><span id="st">●</span><span id="appVersion" aria-label="إصدار التطبيق">v1</span><button class="ib" onclick="notifM()" aria-label="الإشعارات">🔔</button><button class="ib" onclick="setM()" aria-label="الإعدادات">⚙️</button></header><main id="mn"></main></div></div><div id="md" onclick="if(event.target==this)cm()"><div id="mb"></div></div><div id="tt"></div>
+<div id="app" style="display:none"><aside><div class="lg"><b>SHEIN AL-NEEL</b><small>شي آن النيل</small></div><nav id="nv"></nav></aside><div class="mw"><header><h1 id="ttl"></h1><span id="st">●</span><span id="appVersion" aria-label="إصدار التطبيق">v1</span><span id="uiVersion" aria-label="تحديث الواجهة">واجهة</span><button class="ib" onclick="notifM()" aria-label="الإشعارات">🔔</button><button class="ib" onclick="setM()" aria-label="الإعدادات">⚙️</button></header><main id="mn"></main></div></div><div id="md" onclick="if(event.target==this)cm()"><div id="mb"></div></div><div id="tt"></div>
 <script type="text/plain" id="sqlsrc">
 -- SHEIN AL-NEEL | شي آن النيل — قاعدة بيانات مفتوحة بدون حسابات (آمن لإعادة التشغيل، لا يحذف البيانات)
 create table if not exists customers(id uuid primary key default gen_random_uuid(), name text not null, phone text, address text, notes text, created_at timestamptz default now());
