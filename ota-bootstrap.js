@@ -1,6 +1,6 @@
 /* SHEIN AL-NEEL — safe web-content OTA updater
  * Runs only inside the bundled Android WebView. It never downloads or installs an APK.
- * Updated HTML is written into the current document origin, preserving IndexedDB/localStorage.
+ * Updated HTML is served from the current origin by the service worker, preserving IndexedDB/localStorage.
  */
 (() => {
   'use strict';
@@ -86,7 +86,7 @@
       });
       if (!response.ok) throw new Error('HTTP ' + response.status);
       const html = await response.text();
-      if (!/<html[\\s>]/i.test(html) || html.length < 1000) throw new Error('Invalid update content');
+      if (!/<html[\s>]/i.test(html) || html.length < 1000) throw new Error('Invalid update content');
       const latestVersion = await digest(html);
       const cached = readCache();
       if (!cached) {
