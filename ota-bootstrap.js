@@ -4,9 +4,6 @@
  */
 (() => {
   'use strict';
-  if (window.__SHEIN_OTA_BOOTSTRAPPED) return;
-  window.__SHEIN_OTA_BOOTSTRAPPED = true;
-
   const REMOTE_HTML = 'https://raw.githubusercontent.com/mmdeedn-crypto/SHEINAL-NEEL-mws7hiotccn/main/index.html';
   const CACHE_KEY = 'shein-neel-ota-html-v1';
   const META_NAME = 'shein-ota-applied';
