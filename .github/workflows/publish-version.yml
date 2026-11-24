@@ -1,11 +1,6 @@
 name: Publish app version
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'index.html'
   workflow_dispatch:
 
 jobs:
