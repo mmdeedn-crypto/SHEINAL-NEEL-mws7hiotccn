@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'ota-bootstrap.js'
       - 'manifest.webmanifest'
       - 'sw.js'
       - 'icon.svg'
@@ -50,9 +51,20 @@ jobs:
           npm install @capacitor/core@7 @capacitor/android@7 @capacitor/cli@7 @capacitor/assets@3.0.5 @supabase/supabase-js@2.45.4
           mkdir -p www/vendor
           cp index.html www/index.html
+          cp ota-bootstrap.js www/ota-bootstrap.js
           cp manifest.webmanifest sw.js icon.svg www/
           cp node_modules/@supabase/supabase-js/dist/umd/supabase.js www/vendor/supabase.min.js
           sed -i 's#https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js#./vendor/supabase.min.js#' www/index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('www/index.html')
+          s = p.read_text()
+          marker = '<meta charset="utf-8">'
+          if marker not in s:
+              raise SystemExit('Could not find the HTML charset marker for OTA bootstrap')
+          s = s.replace(marker, marker + '<script src="./ota-bootstrap.js"></script>', 1)
+          p.write_text(s)
+          PY
           sed -i 's/window.APP_BUILD=0/window.APP_BUILD=${{ github.run_number }}/' www/index.html
           npx cap init "شي آن النيل" "com.sheinalneel.shop" --web-dir=www
           npx cap add android
