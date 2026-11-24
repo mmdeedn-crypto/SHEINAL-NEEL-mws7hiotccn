@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
     paths:
-      - 'index.html'
       - 'ota-bootstrap.js'
       - 'manifest.webmanifest'
       - 'sw.js'
